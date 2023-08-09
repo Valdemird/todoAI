@@ -2,14 +2,17 @@
 # this is a simple todos API flask application using flask-restx
 
 from flask import Flask, Blueprint
+from flask_cors import CORS
+
+
 from flask_restx import Api, Resource, fields, Namespace
 
 # a list that will act as a database for this example
 todosDB = []
-
+frontendURL = "http://localhost:5174";
 # create a flask application
 app = Flask(__name__)
-
+CORS(app, resources={r"/api/*": {"origins": frontendURL}})
 # use this only if the flask application is behind a reverse proxy
 # from werkzeug.middleware.proxy_fix import ProxyFix
 # app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -35,7 +38,7 @@ app.register_blueprint(blueprint)
 # create an API namespace
 # Namespace is a group of API endpoints/routes like an MVC API controller
 todosCtrlr = Namespace(
-    'todos', path="todos", description='Todos API Controller')
+    'todos', path="/todos", description='Todos API Controller')
 
 # create API models for various api endpoints
 # the data type and data validation for each field in API model can be specified
