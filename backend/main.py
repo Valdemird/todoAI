@@ -1,4 +1,3 @@
-# this is a simple todos API flask application using flask-restx
 from flask import Flask
 
 from flask_sqlalchemy import SQLAlchemy
