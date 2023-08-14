@@ -73,4 +73,12 @@ Librerías necesarias:
   pip install Flask-Migrate
   pip install flask_marshmallow
   pip install marshmallow-sqlalchemy
+  pip install Flask-CORS
+  pip install psycopg2-binary
   ```
+
+  tambien puedes instalar todas las dependencias corriendo:
+  ```bash
+   pip install -r requirements.txt
+  ```
+

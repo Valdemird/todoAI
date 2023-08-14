@@ -1,0 +1,5 @@
+Flask-Migrate
+flask_marshmallow
+marshmallow-sqlalchemy
+Flask-CORS
+psycopg2-binary
