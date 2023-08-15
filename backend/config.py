@@ -3,6 +3,7 @@ import pathlib
 
 from flask import Flask
 from json import JSONEncoder
+from flask_cors import CORS
 
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
@@ -12,6 +13,7 @@ basedir = pathlib.Path(__file__).parent.resolve()
 
 # create a flask application
 app = Flask(__name__)
+CORS(app)
 #Configuración para Sqlite
 #app.config['SQLALCHEMY_DATABASE_URI'] =\
 #        'sqlite:///' + os.path.join(basedir, 'database.db')
