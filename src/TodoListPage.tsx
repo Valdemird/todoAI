@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { useAddTodoList, useGetTodoList } from "./services/todos";
+import { useGetTodoList, useTodoListMutation } from "./services/todos";
 import { Button } from "./stories/Button";
 
 import "./App.css";
@@ -9,7 +9,7 @@ import "./App.css";
 const TodoListPage = () => {
   const [input, setInput] = useState("");
   const { data, error, isLoading } = useGetTodoList();
-  const { addTodoList } = useAddTodoList();
+  const { addTodoList, deleteTodoList } = useTodoListMutation();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -30,7 +30,9 @@ const TodoListPage = () => {
           <ul>
             {data.map((item) => (
               <li key={item.id}>
-                <Link to={`/list/${item.id}`}>{item.title}</Link></li>
+                <Link to={`/list/${item.id}`}>{item.title}</Link>
+                <button onClick={() => deleteTodoList(item.id)}>delete</button>
+              </li>
             ))}
           </ul>
         </section>
@@ -39,11 +41,15 @@ const TodoListPage = () => {
           <input
             type="text"
             id="newTaskInput"
-
             placeholder="Enter a new task"
             onChange={(e) => setInput(e.target.value)}
           />
-          <Button  primary disabled={!input} onClick={() => addTodoList({title:input})} label="Add Task"/>
+          <Button
+            primary
+            disabled={!input}
+            onClick={() => addTodoList({ title: input })}
+            label="Add Task"
+          />
         </section>
       </main>
       <footer>
@@ -51,6 +57,6 @@ const TodoListPage = () => {
       </footer>
     </div>
   );
-}
+};
 
 export default TodoListPage;

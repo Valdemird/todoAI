@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 
-import { useAddTask, useGetTaskList } from "./services/todos";
+import { useTaskMutation, useGetTaskList } from "./services/todos";
 import { Button } from "./stories/Button";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");
   const params = useParams();
   const { data, error, isLoading } = useGetTaskList();
-  const { addTask } = useAddTask();
+  const { addTask,deleteTask } = useTaskMutation();
   const filteredItems = useMemo(() => {
     if (params.todoListId && data)
       return data?.filter(
@@ -34,7 +34,10 @@ const TaskListPage = () => {
           <h2>Tasks</h2>
           <ul>
             {filteredItems?.map((item) => (
-              <li key={item.id}>{item.value}</li>
+              <li key={item.id}>
+                {item.value}
+                <button onClick={()=> deleteTask(item.id)}>delete</button>
+                </li>
             ))}
           </ul>
         </section>
