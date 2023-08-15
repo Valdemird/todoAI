@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "test": "vitest run --coverage",
+    "ui-test": "vitest --ui",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@storybook/addon-a11y": "^7.3.0",
     "@tanstack/react-query": "^4.32.6",
     "@tanstack/react-query-devtools": "^4.32.6",
     "localforage": "^1.10.0",
@@ -30,17 +33,21 @@
     "@storybook/react": "^7.1.1",
     "@storybook/react-vite": "^7.1.1",
     "@storybook/testing-library": "^0.2.0",
+    "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
+    "@vitest/coverage-istanbul": "^0.34.1",
+    "@vitest/ui": "^0.34.1",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.13",
     "storybook": "^7.1.1",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vitest": "^0.34.1"
   }
 }
