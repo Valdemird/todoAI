@@ -21,7 +21,16 @@ export const addTask = async (newTask: Task): Promise<Task> => {
   return response.json();
 };
 
-export const addTodoList = async (newTask: TodoList): Promise<TodoList> => {
+export const deleteTask = async (id: number): Promise<void> => {
+  await fetch(`http://localhost:50100/apitask/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const addTodoList = async (newTask:  Omit<TodoList, "id">): Promise<TodoList> => {
   const response = await fetch("http://localhost:50100/apilist/", {
     method: "POST",
     headers: {
@@ -30,4 +39,13 @@ export const addTodoList = async (newTask: TodoList): Promise<TodoList> => {
     body: JSON.stringify(newTask),
   });
   return response.json();
+};
+
+export const deleteTodoList = async (id: number): Promise<void> => {
+  await fetch(`http://localhost:50100/apilist/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
