@@ -1,0 +1,49 @@
+@import url("../../common.css");
+
+button {
+  border: solid 1px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.rounded {
+  border-radius: 50%;
+}
+
+.outlined.primary {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.outlined.neutral {
+  border-color: var(--color-neutral-1);
+  color: var(--color-neutral-1);
+}
+
+.outlined.danger {
+  border-color: var(--color-danger-1);
+  color: var(--color-danger-1);
+}
+
+.filled.primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.filled.neutral {
+  border-color: var(--color-neutral-1);
+  background-color: var(--color-neutral);
+  color: white;
+}
+
+.filled.danger {
+  border-color: var(--color-danger-1);
+  background-color: var(--color-danger-2);
+  color: white;
+}
