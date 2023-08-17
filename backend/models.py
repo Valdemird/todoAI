@@ -12,6 +12,7 @@ class Task(db.Model):
     timestamp = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
+    completed = db.Column(db.Boolean, default=False)
     list_id = db.Column(db.Integer, db.ForeignKey('checklist.id', ondelete="CASCADE"))
 
     def __repr__(self):

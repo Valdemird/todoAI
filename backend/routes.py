@@ -1,3 +1,4 @@
+import os
 from flask import Flask, Blueprint, make_response
 from flask_restx import Api, Resource
 
@@ -7,6 +8,13 @@ from config import app, db
 
 from api_control import taskCtrlr, taskDto, createTaskCommand, updateTaskCommand
 from api_control import listCtrlr, listDto, createListCommand, updateListCommand
+from api_control import langchainCtrlr, createlangChainCommand
+
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.llms import OpenAI
+from langchain.schema import BaseOutputParser
+from langchain.chains import LLMChain
 
 # a list that will act as a database for this example
 todosDB = []
@@ -25,10 +33,6 @@ api = Api(blueprint,
           doc="/swagger/",
           validate=True
           )
-
-
-
-
 
 # create a namespace endpoint / controller endpoint by specifying the route
 # A controller route is repesented by a python class inheriting the "Resource" base class
@@ -54,6 +58,7 @@ class TodosDisplay(Resource):
                            list_id=payload["list_id"])
             db.session.add(newTask)
             db.session.commit()
+            return task_schema.dump(newTask)
         else:
             taskCtrlr.abort(404, f"List with id {list_id} does not exist")
 
@@ -118,6 +123,7 @@ class CheckListDisplay(Resource):
         newList = CheckList(title=payload["title"])
         db.session.add(newList)
         db.session.commit()
+        return check_list_schema.dump(newList)
         
 @listCtrlr.route("/<int:id>")
 class CheckListInd(Resource):
@@ -155,3 +161,59 @@ class CheckListInd(Resource):
     
         
 api.add_namespace(listCtrlr)
+
+@langchainCtrlr.route("/")
+class SendTaskToLangChain(Resource):
+    @langchainCtrlr.expect(createlangChainCommand)
+    def post(self):        
+        payload = langchainCtrlr.payload                
+        
+        class CommaSeparatedListOutputParser(BaseOutputParser):
+            """Parse the output of an LLM call to a comma-separated list."""
+
+
+            def parse(self, text: str):
+                """Parse the output of an LLM call."""
+                return text.strip().split(", ")
+        
+        llm = OpenAI(openai_api_key=os.environ.get("SECRET_KEY_OPENAI"))        
+        template = """Eres un asistente que genera una lista sin numeracion separada por comas.
+        La cantidad maxima de elementos por lista es de 10.
+        Los elementos de la lista deben estar ordenados.        
+        Imagina que eres un expero en un productividad dentro de tres
+        asteristicos vamos a escribirte el titulo de una lista de tareas y quiero que
+        me digas que actividades debo realizar para completarla. 
+        ***
+        {data}
+        ***
+        """
+        prompt = PromptTemplate.from_template(template)
+        
+        prompt.format(data=payload["prompt"])
+        list = llm.predict(prompt.format(data=payload["prompt"])).strip().split(", ")
+        #print("list", list)
+        
+        newList = CheckList(title=payload["prompt"])
+        db.session.add(newList)
+        db.session.commit()
+        
+        order = 1
+        for task in list:
+            newTask = Task(value=task, order=order,
+                 completed=False, list_id=newList.id)
+            order +=1
+            db.session.add(newTask)
+            db.session.commit()
+        return make_response(f"List created successfully", 200)
+        
+        '''
+        #Segunda opción, pero con menos calidad en la respuesta
+        chain = LLMChain(
+            llm=OpenAI(openai_api_key=os.environ.get("SECRET_KEY_OPENAI")),
+            prompt=prompt,
+            output_parser=CommaSeparatedListOutputParser()
+        )
+        print(chain.run(data=payload["prompt"]))'''
+        
+        
+api.add_namespace(langchainCtrlr)
