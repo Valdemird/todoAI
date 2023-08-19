@@ -13,7 +13,9 @@ const TaskListPage = () => {
   const { addTask, deleteTask, updateTask } = useTaskMutation();
   const filteredItems = useMemo(() => {
     if (params.todoListId && data)
-      return [ ...data ]?.filter((item) => item.list_id.toString() === params.todoListId).sort((a, b) => a.order - b.order);
+      return [...data]
+        ?.filter((item) => item.list_id.toString() === params.todoListId)
+        .sort((a, b) => a.order - b.order);
   }, [data, params.todoListId]);
 
   if (isLoading) {
@@ -36,9 +38,7 @@ const TaskListPage = () => {
             <List
               items={filteredItems}
               deleteCallback={(item) => deleteTask(item.id)}
-              onChange={(item, checked) =>
-                updateTask({ ...item, completed: checked })
-              }
+              onChange={(item) => updateTask({ item })}
             />
           )}
         </section>
@@ -58,10 +58,13 @@ const TaskListPage = () => {
               addTask({
                 value: input,
                 list_id: parseInt(params.todoListId, 10),
-                order: (filteredItems?.reduce((maxObject, currentObject) => {
-                  return currentObject.order > maxObject.order ? currentObject : maxObject;
-                }, filteredItems[0])?.order ?? 0 ) + 1,
-                completed: false
+                order:
+                  (filteredItems?.reduce((maxObject, currentObject) => {
+                    return currentObject.order > maxObject.order
+                      ? currentObject
+                      : maxObject;
+                  }, filteredItems[0])?.order ?? 0) + 1,
+                completed: false,
               })
             }
             label="Add Task"
