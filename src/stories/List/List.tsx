@@ -2,6 +2,7 @@ import React from "react";
 import "./List.css"; // Asegúrate de que la ruta sea correcta
 import { IconButton } from "../IconButton";
 import classNames from "classnames";
+import { Task } from "../../services/todos/types";
 
 interface ListItemProps {
   item: Item;
@@ -19,16 +20,16 @@ const ListItem: React.FC<ListItemProps> = ({
   showDelete,
 }) => {
   return (
-    <li className={classNames("custom-list-item", { checked: item.checked })}>
+    <li className={classNames("custom-list-item", { checked: item.completed })}>
       <div className="check-label-container">
         {showCheck && (
           <input
             type="radio"
-            checked={item.checked}
-            onChange={() => onChange(!item.checked)}
+            checked={item.completed}
+            onChange={() => onChange(!item.completed)}
           />
         )}
-        <span>{item.label}</span>
+        <span>{item.value}</span>
       </div>
       {showDelete && (
         <IconButton
@@ -43,24 +44,21 @@ const ListItem: React.FC<ListItemProps> = ({
   );
 };
 
-interface Item {
-  id: number;
-  label: string;
-  checked: boolean;
+interface Item extends Task{
 }
 
 interface ListProps {
   items: Item[];
-  showCheck: boolean;
-  showDelete: boolean;
-  onChange: () => void;
+  showCheck?: boolean;
+  showDelete?: boolean;
+  onChange: (item: Item, checked: boolean) => void;
   deleteCallback: (item: Item) => void;
 }
 
 const List: React.FC<ListProps> = ({
   items,
-  showCheck,
-  showDelete,
+  showCheck = true,
+  showDelete = true,
   onChange,
   deleteCallback,
 }) => {
@@ -69,7 +67,7 @@ const List: React.FC<ListProps> = ({
       key={`${item.id}`}
       item={item}
       deleteCallback={deleteCallback}
-      onChange={onChange}
+      onChange={(newChecked) => onChange(item, newChecked)}
       showCheck={showCheck}
       showDelete={showDelete}
     />
