@@ -14,6 +14,7 @@ jobs:
       with:
         fetch-depth: 0
         environment: Sonar
+      secrets: inherit
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
