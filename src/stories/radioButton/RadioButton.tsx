@@ -5,6 +5,7 @@ import "./RadioButton.css";
 type Option = {
   value: string;
   label: string;
+  default?: boolean;
 };
 
 interface RadioButtonProps {
@@ -22,7 +23,7 @@ interface RadioButtonProps {
  * Primary UI component for user interaction
  */
 export const RadioButton: React.FC<RadioButtonProps> = ({onChange,options}) => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(options.find((option)=> option.default)?.value ?? null);
 
   const handleOptionChange = (optionValue: string) => {
     setSelectedOption(optionValue);

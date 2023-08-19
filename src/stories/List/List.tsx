@@ -68,7 +68,7 @@ const List: React.FC<ListProps> = ({
       key={`${item.id}`}
       item={item}
       deleteCallback={deleteCallback}
-      onChange={(newChecked) => onChange(item, newChecked)}
+      onChange={(newChecked) =>onChange(item, newChecked)}
       showCheck={showCheck}
       showDelete={showDelete}
     />

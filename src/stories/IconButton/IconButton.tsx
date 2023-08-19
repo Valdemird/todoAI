@@ -24,7 +24,6 @@ export const IconButton : React.FC<IconButton> = ({
         [`outlined ${color}`]: style === "outlined",
         [`filled ${color}`]: style === "filled"
     });
-    console.log("buttonClasses = ",buttonClasses);
     return (
     <button className={buttonClasses} onClick={onClick}>
         {icon}

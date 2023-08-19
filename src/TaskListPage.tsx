@@ -4,17 +4,25 @@ import { useParams } from "react-router";
 import { useGetTaskList, useTaskMutation } from "./services/todos";
 import { Button } from "./stories/Button";
 import List from "./stories/List/List";
-import { Header } from "./stories/Header";
+import { RadioButton } from "./stories/radioButton";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");
+  const [filterParam, setFilterParam] = useState("all");
   const params = useParams();
   const { data, error, isLoading } = useGetTaskList();
   const { addTask, deleteTask, updateTask } = useTaskMutation();
   const filteredItems = useMemo(() => {
+    console.log("filterParam",filterParam)
     if (params.todoListId && data)
-      return [ ...data ]?.filter((item) => item.list_id.toString() === params.todoListId).sort((a, b) => a.order - b.order);
-  }, [data, params.todoListId]);
+      return [ ...data ]?.filter((item) => {
+        const isCompleted = item.completed;
+        const isTaskOfTheList = item.list_id.toString() === params.todoListId
+        const filter = filterParam === "all" ? true : (filterParam === "done" ? isCompleted : !isCompleted)
+
+        return isTaskOfTheList && filter
+    }).sort((a, b) => a.order - b.order);
+  }, [data, params.todoListId,filterParam]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -30,6 +38,17 @@ const TaskListPage = () => {
         <h1>Task List</h1>
       </header>
       <main>
+        <RadioButton
+        onChange={(value)=>{
+          setFilterParam(value)
+        }}
+        options={[
+          { value: "done", label: "Done" },
+          { value: "pending", label: "Pending" },
+          { value: "all", label: "All", default:true},
+        ]
+      }
+        ></RadioButton>
         <section>
           <h2>Tasks</h2>
           {filteredItems && (
