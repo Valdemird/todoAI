@@ -1,10 +1,10 @@
 export interface Task {
-  id: string;
+  id: number;
   value: string;
   order: number;
+  completed: boolean,
   list_id: number;
   }
-
   export interface TodoList {
     id: number;
     title: string;
