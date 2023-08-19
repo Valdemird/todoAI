@@ -31,7 +31,7 @@ jobs:
       run: |
         cd src
         npm install
-        npm test -- --coverage --watchAll=false
+        npm test --coverage --watchAll=false
         cd ..     
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
