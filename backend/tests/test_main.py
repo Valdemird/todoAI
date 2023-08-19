@@ -1,6 +1,6 @@
 import unittest
 from flask_testing import TestCase
-from app import app, db
+from main import app, db
 
 class TestTodosAPI(TestCase):
     def create_app(self):
