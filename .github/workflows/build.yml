@@ -15,6 +15,13 @@ jobs:
       with:
         fetch-depth: 0
         secrets: inherit
+        args: >
+          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.sources=lib/
+          -Dsonar.test.exclusions=tests/**
+          -Dsonar.tests=tests/
+          -Dsonar.verbose=true
+          -Dsonar.python.version=3.7
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
