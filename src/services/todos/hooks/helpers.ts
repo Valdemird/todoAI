@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useMutationCreator = <T>(
     fetchFunction: (arg: T) => Promise<T>,
-    getId: string
+    getId: string[]
   ) => {
     const queryCache = useQueryClient();
     const addTaskMutation = useMutation({
@@ -10,19 +10,19 @@ export const useMutationCreator = <T>(
         return fetchFunction(newTask);
       },
       onMutate: async (newTodo) => {
-        await queryCache.cancelQueries({ queryKey: [getId] });
+        await queryCache.cancelQueries({ queryKey: getId });
   
-        const previousTodos = queryCache.getQueryData([getId]);
+        const previousTodos = queryCache.getQueryData(getId);
   
-        queryCache.setQueryData([getId], (old) => [...old, newTodo]);
+        queryCache.setQueryData(getId, (old) => [...old, newTodo]);
   
         return { previousTodos };
       },
       onError: (err, newTodo, context) => {
-        queryCache.setQueryData([getId], context.previousTodos);
+        queryCache.setQueryData(getId, context.previousTodos);
       },
       onSettled: () => {
-        queryCache.invalidateQueries({ queryKey: [getId] });
+        queryCache.invalidateQueries({ queryKey: getId });
       },
     });
   

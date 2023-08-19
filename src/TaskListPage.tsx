@@ -1,28 +1,19 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router";
 
 import { useGetTaskList, useTaskMutation } from "./services/todos";
 import { Button } from "./stories/Button";
 import List from "./stories/List/List";
 import { RadioButton } from "./stories/radioButton";
+import { useFilter } from "./hooks";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");
-  const [filterParam, setFilterParam] = useState("all");
-  const params = useParams();
-  const { data, error, isLoading } = useGetTaskList();
-  const { addTask, deleteTask, updateTask } = useTaskMutation();
-  const filteredItems = useMemo(() => {
-    console.log("filterParam",filterParam)
-    if (params.todoListId && data)
-      return [ ...data ]?.filter((item) => {
-        const isCompleted = item.completed;
-        const isTaskOfTheList = item.list_id.toString() === params.todoListId
-        const filter = filterParam === "all" ? true : (filterParam === "done" ? isCompleted : !isCompleted)
 
-        return isTaskOfTheList && filter
-    }).sort((a, b) => a.order - b.order);
-  }, [data, params.todoListId,filterParam]);
+  const params = useParams();
+  const { data, error, isLoading } = useGetTaskList(params.todoListId);
+  const { setFilterParam, filteredItems } = useFilter(data);
+  const { addTask, deleteTask, updateTask } = useTaskMutation(params.todoListId);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -39,15 +30,14 @@ const TaskListPage = () => {
       </header>
       <main>
         <RadioButton
-        onChange={(value)=>{
-          setFilterParam(value)
-        }}
-        options={[
-          { value: "done", label: "Done" },
-          { value: "pending", label: "Pending" },
-          { value: "all", label: "All", default:true},
-        ]
-      }
+          onChange={(value) => {
+            setFilterParam(value);
+          }}
+          options={[
+            { value: "done", label: "Done" },
+            { value: "pending", label: "Pending" },
+            { value: "all", label: "All", default: true },
+          ]}
         ></RadioButton>
         <section>
           <h2>Tasks</h2>
@@ -77,10 +67,13 @@ const TaskListPage = () => {
               addTask({
                 value: input,
                 list_id: parseInt(params.todoListId, 10),
-                order: (filteredItems?.reduce((maxObject, currentObject) => {
-                  return currentObject.order > maxObject.order ? currentObject : maxObject;
-                }, filteredItems[0])?.order ?? 0 ) + 1,
-                completed: false
+                order:
+                  (filteredItems?.reduce((maxObject, currentObject) => {
+                    return currentObject.order > maxObject.order
+                      ? currentObject
+                      : maxObject;
+                  }, filteredItems[0])?.order ?? 0) + 1,
+                completed: false,
               })
             }
             label="Add Task"

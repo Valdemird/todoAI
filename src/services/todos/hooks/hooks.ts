@@ -7,18 +7,19 @@ import { useMutationCreator, useMutationWithInvalidation } from "./helpers";
 const TASK_LIST_ID = "taskList";
 const TODO_LIST_ID = "todoList";
 
-export const useGetTaskList = () => {
-  return useQuery<TaskList, Error>([TASK_LIST_ID], getTaskList);
+export const useGetTaskList = (listId?: number) => {
+  return useQuery<TaskList, Error>([TASK_LIST_ID,listId], ()=> getTaskList(listId));
 };
 
 export const useGetTodoList = () => {
   return useQuery<TodoLists, Error>([TODO_LIST_ID], getTodoList);
 };
 
-export const useTaskMutation = () => {
-  const addMutation = useMutationCreator<Task>(addTask, TASK_LIST_ID);
-  const updateMutation = useMutationWithInvalidation<Task>((task)=> putTask(task.id,task), [TASK_LIST_ID]);
-  const deleteTaskMutation = useMutationWithInvalidation(deleteTask,[TASK_LIST_ID])
+export const useTaskMutation = (listId?: number) => {
+  const cacheIds = listId ? [TASK_LIST_ID,listId.toString()] : [TASK_LIST_ID];
+  const addMutation = useMutationCreator<Task>(addTask,cacheIds );
+  const updateMutation = useMutationWithInvalidation<Task>((task)=> putTask(task.id,task), cacheIds);
+  const deleteTaskMutation = useMutationWithInvalidation(deleteTask,cacheIds)
   const handleAddTask = async (task: Omit<Task, "id">) => {
     if (task.value) {
       await addMutation.mutate(task);
@@ -37,7 +38,7 @@ export const useTaskMutation = () => {
 export const useTodoListMutation = () => {
   const addMutation = useMutationCreator<Omit<TodoList, "id">>(
     addTodoList,
-    TODO_LIST_ID
+    [TODO_LIST_ID]
   );
   const deleteTodoListMutation = useMutationWithInvalidation(deleteTodoList,[TODO_LIST_ID])
 
