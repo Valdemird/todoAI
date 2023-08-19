@@ -9,11 +9,11 @@ name: Main Workflow
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
+    environment: Sonar
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        environment: Sonar
         secrets: inherit
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
