@@ -22,7 +22,13 @@ jobs:
         pip install -r backend/requirements.txt
         pip install pytest pytest-cov Flask-Testing
         coverage run -m pytest backend/tests
-        coverage xml -o coverage.xml        
+        coverage xml -o coverage.xml   
+    - name: React test
+      run: |
+        cd src
+        npm install
+        npm test -- --coverage --watchAll=false
+        cd ..     
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       with:
