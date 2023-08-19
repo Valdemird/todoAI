@@ -14,10 +14,9 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        secrets: inherit
         args: >
           -Dsonar.python.coverage.reportPaths=coverage.xml
-          -Dsonar.sources=lib/
+          -Dsonar.sources=src/,backend/
           -Dsonar.test.exclusions=tests/**
           -Dsonar.tests=tests/
           -Dsonar.verbose=true
