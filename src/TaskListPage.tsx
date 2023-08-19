@@ -45,9 +45,7 @@ const TaskListPage = () => {
             <List
               items={filteredItems}
               deleteCallback={(item) => deleteTask(item.id)}
-              onChange={(item, checked) =>
-                updateTask({ ...item, completed: checked })
-              }
+              onChange={(item) => updateTask({ item })}
             />
           )}
         </section>
