@@ -24,7 +24,8 @@ const ListItem: React.FC<ListItemProps> = ({
       <div className="check-label-container">
         {showCheck && (
           <input
-            type="radio"
+          className="rounded-checkbox"
+            type="checkbox"
             checked={item.completed}
             onChange={() => onChange(!item.completed)}
           />

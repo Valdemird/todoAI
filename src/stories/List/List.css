@@ -29,3 +29,9 @@ span {
 .checked {
   text-decoration: line-through;
 }
+
+.rounded-checkbox {
+  width: 20px;
+  height: 20px;
+  clip-path: circle(46% at 50% 50%);
+}
