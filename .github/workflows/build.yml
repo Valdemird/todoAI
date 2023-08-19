@@ -9,6 +9,8 @@ name: Main Workflow
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
+    container:
+      image: python:3.7
     environment: Sonar
     steps:
     - uses: actions/checkout@v3
