@@ -22,10 +22,13 @@ jobs:
         pip install -r backend/requirements.txt
         pip install pytest pytest-cov Flask-Testing
         coverage run -m pytest backend/tests
-        coverage xml -o coverage.xml   
+        coverage xml -o coverage.xml  
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 'latest'
     - name: React test
       run: |
-        apt-get install nodejs
         cd src
         npm install
         npm test -- --coverage --watchAll=false
