@@ -92,6 +92,7 @@ class Todo(Resource):
             task.value = payload["value"]
             task.order = payload["order"]
             task.list_id = payload["list_id"]
+            task.completed = payload["completed"]
             db.session.merge(task)
             db.session.commit()
             return task_schema.dump(task), 201
