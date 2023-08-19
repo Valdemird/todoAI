@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { addTask, addTodoList, deleteTask, deleteTodoList, getTaskList, getTodoList, putTask } from "../api";
+import { addListWithAI, addTask, addTodoList, deleteTask, deleteTodoList, getTaskList, getTodoList, putTask } from "../api";
 import { Task, TaskList, TodoList, TodoLists } from "../types";
 import { useMutationCreator, useMutationWithInvalidation } from "./helpers";
 
@@ -17,8 +17,8 @@ export const useGetTodoList = () => {
 
 export const useTaskMutation = () => {
   const addMutation = useMutationCreator<Task>(addTask, TASK_LIST_ID);
-  const updateMutation = useMutationWithInvalidation<Task>((task)=> putTask(task.id,task), TASK_LIST_ID);
-  const deleteTaskMutation = useMutationWithInvalidation(deleteTask,TASK_LIST_ID)
+  const updateMutation = useMutationWithInvalidation<Task>((task)=> putTask(task.id,task), [TASK_LIST_ID]);
+  const deleteTaskMutation = useMutationWithInvalidation(deleteTask,[TASK_LIST_ID])
   const handleAddTask = async (task: Omit<Task, "id">) => {
     if (task.value) {
       await addMutation.mutate(task);
@@ -39,7 +39,7 @@ export const useTodoListMutation = () => {
     addTodoList,
     TODO_LIST_ID
   );
-  const deleteTodoListMutation = useMutationWithInvalidation(deleteTodoList,TODO_LIST_ID)
+  const deleteTodoListMutation = useMutationWithInvalidation(deleteTodoList,[TODO_LIST_ID])
 
   const addTodoListHandler = async (todoList: Omit<TodoList, "id">) => {
     if (todoList) {
@@ -50,4 +50,11 @@ export const useTodoListMutation = () => {
     await deleteTodoListMutation.mutate(id);
 
   return { addTodoList: addTodoListHandler, deleteTodoList: deleteTaskHandler };
+};
+
+export const useAI = ()=>{
+  const addListWithAIMutation = useMutationWithInvalidation<string>((prompt)=> addListWithAI(prompt), [TODO_LIST_ID]);
+  const addListWithAIHandler = async (prompt: string) => {await addListWithAIMutation.mutate(prompt)};
+
+  return { addListWithAI: addListWithAIHandler };
 };

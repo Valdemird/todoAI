@@ -31,13 +31,13 @@ export const useMutationCreator = <T>(
 
   export const useMutationWithInvalidation = <T>(
     fetchFunction: (arg: T) => Promise<void>,
-    getId: string
+    getIds: string[]
   ) => {
     const queryCache = useQueryClient();
     const mutation = useMutation({
         mutationFn: fetchFunction,
         onSuccess: () => {
-            queryCache.invalidateQueries({ queryKey: [getId] })
+            queryCache.invalidateQueries({ queryKey: getIds })
         }
       })
       return mutation
