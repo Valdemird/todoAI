@@ -60,3 +60,13 @@ export const deleteTodoList = async (id: number): Promise<void> => {
     },
   });
 };
+
+export const addListWithAI = async (prompt: string): Promise<void> => {
+  await fetch(`http://localhost:50100/api/langchain/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({prompt}),
+  });
+};

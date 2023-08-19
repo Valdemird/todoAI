@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { useGetTodoList, useTodoListMutation } from "./services/todos";
+import { useAI, useGetTodoList, useTodoListMutation } from "./services/todos";
 import { Button } from "./stories/Button";
 
 import "./App.css";
@@ -10,6 +10,7 @@ const TodoListPage = () => {
   const [input, setInput] = useState("");
   const { data, error, isLoading } = useGetTodoList();
   const { addTodoList, deleteTodoList } = useTodoListMutation();
+  const {addListWithAI} = useAI();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -49,6 +50,12 @@ const TodoListPage = () => {
             disabled={!input}
             onClick={() => addTodoList({ title: input })}
             label="Add Task"
+          />
+                    <Button
+            primary
+            disabled={!input}
+            onClick={() => addListWithAI(input)}
+            label="AI"
           />
         </section>
       </main>
