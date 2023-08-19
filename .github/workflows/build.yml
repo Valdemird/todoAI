@@ -25,7 +25,7 @@ jobs:
         coverage xml -o coverage.xml   
     - name: React test
       run: |
-        sudo apt-get install npm
+        apt-get install npm
         cd src
         npm install
         npm test -- --coverage --watchAll=false
