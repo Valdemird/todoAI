@@ -17,7 +17,7 @@ jobs:
         projectBaseDir: .
         args: >
           -Dsonar.python.coverage.reportPaths=coverage.xml
-          -Dsonar.sources=src/**,backend/**
+          -Dsonar.sources=./**
           -Dsonar.test.exclusions=tests/**
           -Dsonar.tests=tests/
           -Dsonar.verbose=true
