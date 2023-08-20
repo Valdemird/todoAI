@@ -22,8 +22,13 @@ services:
     restart: always
     ports:
       - "50100:50100"
-    links:
+    depends_on:
       - db
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:5432"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
 
   frontend:
     build: .
