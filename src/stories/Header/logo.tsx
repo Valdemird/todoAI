@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as LogoImage } from "../assets/logo.svg";
 
 const StyledLogo = styled.div`
-  background-color: ${({theme}) => theme.colors.primary };
+  background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Logo = (): React.FC => (
