@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { RadioButton } from "./RadioButton";
+import React from "react";
 
 const options = [
   { value: "option1", label: "Option 1" },
