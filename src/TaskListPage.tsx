@@ -5,7 +5,7 @@ import { useGetTaskList, useTaskMutation } from "./services/todos";
 import { Button } from "./stories/Button";
 import List from "./stories/List/List";
 import { RadioButton } from "./stories/radioButton";
-import { useFilter } from "./hooks";
+import { filterOptions, useFilter } from "./hooks";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");
@@ -13,7 +13,9 @@ const TaskListPage = () => {
   const params = useParams();
   const { data, error, isLoading } = useGetTaskList(params.todoListId);
   const { setFilterParam, filteredItems } = useFilter(data);
-  const { addTask, deleteTask, updateTask } = useTaskMutation(params.todoListId);
+  const { addTask, deleteTask, updateTask } = useTaskMutation(
+    params.todoListId
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -33,11 +35,7 @@ const TaskListPage = () => {
           onChange={(value) => {
             setFilterParam(value);
           }}
-          options={[
-            { value: "done", label: "Done" },
-            { value: "pending", label: "Pending" },
-            { value: "all", label: "All", default: true },
-          ]}
+          options={filterOptions}
         ></RadioButton>
         <section>
           <h2>Tasks</h2>
@@ -45,7 +43,7 @@ const TaskListPage = () => {
             <List
               items={filteredItems}
               deleteCallback={(item) => deleteTask(item.id)}
-              onChange={(item) => updateTask({ item })}
+              onChange={(item) => updateTask(item)}
             />
           )}
         </section>
