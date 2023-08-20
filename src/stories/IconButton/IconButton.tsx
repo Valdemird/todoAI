@@ -3,13 +3,14 @@ import "./IconButton.css";
 import * as Icons from "react-icons/fa";
 import classNames from "classnames";
 
-type Shape = "circle" | "square";
-type Style = "filled" | "outlined";
-type Color = "primary" | "neutral" | "danger";
+export type Shape = "circle" | "square";
+export type Style = "filled" | "outlined";
+export type Color = "primary" | "neutral" | "danger";
+export type IconRef = keyof typeof Icons;
 
 interface IconButtonProps {
   color: Color;
-  iconRef: keyof typeof Icons;
+  iconRef: IconRef;
   onClick: () => void;
   style: Style;
   shape: Shape;
