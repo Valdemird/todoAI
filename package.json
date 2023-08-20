@@ -17,6 +17,7 @@
     "@storybook/addon-a11y": "^7.3.0",
     "@tanstack/react-query": "^4.32.6",
     "@tanstack/react-query-devtools": "^4.32.6",
+    "cjs": "^0.0.11",
     "classnames": "^2.3.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
@@ -50,9 +51,10 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.13",
+    "jsdom": "^22.1.0",
     "storybook": "^7.1.1",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vitest": "^0.34.1"
+    "vite": "^4.4.9",
+    "vitest": "^0.34.2"
   }
 }
