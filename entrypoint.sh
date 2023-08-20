@@ -1,3 +1,3 @@
 #/bin/bash
 echo "Starting frontend"
-npm run dev
+npm i && npm run dev

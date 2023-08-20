@@ -18,7 +18,7 @@ CORS(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] =\
 #        'sqlite:///' + os.path.join(basedir, 'database.db')
 
-DB_URL = "postgresql://postgres:root@localhost:5432/postgres"
+DB_URL = "postgresql://postgres:root@db:5432/postgres"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning

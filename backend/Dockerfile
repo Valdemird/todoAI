@@ -1,11 +1,11 @@
-FROM python:3.9-alpine
+FROM python:3.9
 WORKDIR /app
 ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0
-RUN apk add --no-cache gcc musl-dev linux-headers
-COPY requirements.txt requirements.txt
+ENV FLASK_ENV=development
+COPY . .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-EXPOSE 5000
-COPY . .
-CMD ["python", "/app/main.py"]
+
+EXPOSE 50100
+CMD [ "python3", "main.py"]
