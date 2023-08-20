@@ -3,3 +3,6 @@ flask_marshmallow
 marshmallow-sqlalchemy
 Flask-CORS
 psycopg2-binary
+langchain
+python-dotenv
+openai

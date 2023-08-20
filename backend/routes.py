@@ -1,6 +1,7 @@
 import os
 from flask import Flask, Blueprint, make_response
-from flask_restx import Api, Resource
+from flask_restx import Api, Resource, reqparse
+
 
 from models import CheckList, Task, check_list_schema, task_schema
 
@@ -37,13 +38,23 @@ api = Api(blueprint,
 # create a namespace endpoint / controller endpoint by specifying the route
 # A controller route is repesented by a python class inheriting the "Resource" base class
 # The HTTP request handling functions are defined using the get, post, put, delete methods in the class
+# Create a request parser to handle query parameters
+parser = reqparse.RequestParser()
+parser.add_argument('listId', type=int, help='Filter tasks by list ID')
+
 @taskCtrlr.route("/")
 class TodosDisplay(Resource):
     @taskCtrlr.marshal_list_with(taskDto)
     def get(self):
+        args = parser.parse_args()
+        list_id_filter = args.get('listId')
         # this method handles GET request of the API endpoint
         # return all database todo objects in response        
-        tasks = Task.query.all()        
+        if list_id_filter:
+            tasks = Task.query.filter_by(list_id=list_id_filter).all()
+        else:
+            tasks = Task.query.all()
+       
         return tasks
         
 
@@ -92,6 +103,7 @@ class Todo(Resource):
             task.value = payload["value"]
             task.order = payload["order"]
             task.list_id = payload["list_id"]
+            task.completed = payload["completed"]
             db.session.merge(task)
             db.session.commit()
             return task_schema.dump(task), 201

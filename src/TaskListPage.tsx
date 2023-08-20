@@ -1,20 +1,21 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router";
 
-import { useTaskMutation, useGetTaskList } from "./services/todos";
+import { useGetTaskList, useTaskMutation } from "./services/todos";
 import { Button } from "./stories/Button";
+import List from "./stories/List/List";
+import { RadioButton } from "./stories/radioButton";
+import { filterOptions, useFilter } from "./hooks";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");
+
   const params = useParams();
-  const { data, error, isLoading } = useGetTaskList();
-  const { addTask,deleteTask } = useTaskMutation();
-  const filteredItems = useMemo(() => {
-    if (params.todoListId && data)
-      return data?.filter(
-        (item) => item.list_id.toString() === params.todoListId
-      );
-  }, [data, params.todoListId]);
+  const { data, error, isLoading } = useGetTaskList(params.todoListId);
+  const { setFilterParam, filteredItems } = useFilter(data);
+  const { addTask, deleteTask, updateTask } = useTaskMutation(
+    params.todoListId
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -30,16 +31,21 @@ const TaskListPage = () => {
         <h1>Task List</h1>
       </header>
       <main>
+        <RadioButton
+          onChange={(value) => {
+            setFilterParam(value);
+          }}
+          options={filterOptions}
+        ></RadioButton>
         <section>
           <h2>Tasks</h2>
-          <ul>
-            {filteredItems?.map((item) => (
-              <li key={item.id}>
-                {item.value}
-                <button onClick={()=> deleteTask(item.id)}>delete</button>
-                </li>
-            ))}
-          </ul>
+          {filteredItems && (
+            <List
+              items={filteredItems}
+              deleteCallback={(item) => deleteTask(item.id)}
+              onChange={(item) => updateTask(item)}
+            />
+          )}
         </section>
         <section>
           <h2>Add New Task</h2>
@@ -57,7 +63,13 @@ const TaskListPage = () => {
               addTask({
                 value: input,
                 list_id: parseInt(params.todoListId, 10),
-                order: 0,
+                order:
+                  (filteredItems?.reduce((maxObject, currentObject) => {
+                    return currentObject.order > maxObject.order
+                      ? currentObject
+                      : maxObject;
+                  }, filteredItems[0])?.order ?? 0) + 1,
+                completed: false,
               })
             }
             label="Add Task"
