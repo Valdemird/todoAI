@@ -1,6 +1,7 @@
 .radio-button {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   display: flex;
+  justify-content: flex-end;
   color: #484848;
   border: 0;
   gap: 10px;
