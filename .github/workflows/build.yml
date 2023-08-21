@@ -7,7 +7,7 @@ on:
       types: [opened, synchronize, reopened]
 name: Main Workflow
 jobs:
-  sonarcloud:
+  deployment:
     runs-on: ubuntu-latest
     container:
       image: python:3.9
@@ -26,7 +26,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 'latest'
+        node-version: '20.5.0'
     - name: React test
       run: |
         cd src
