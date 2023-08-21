@@ -31,6 +31,7 @@ jobs:
       run: |
         npm install
         npm install jsdom
+        npm i -D @swc/cli @swc/core
         npm test --coverage --watchAll=false
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
