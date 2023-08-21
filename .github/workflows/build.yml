@@ -21,9 +21,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r backend/requirements.txt
         pip install pytest pytest-cov Flask-Testing
-        pip install coverage-lcov
+        pip install coveragepy-lcov
         coverage run -m pytest backend/tests
-        coverage-lcov
+        coveragepy-lcov
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
