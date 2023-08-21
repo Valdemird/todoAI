@@ -22,7 +22,7 @@ jobs:
         pip install -r backend/requirements.txt
         pip install pytest pytest-cov Flask-Testing
         coverage run -m pytest backend/tests
-        coverage xml -o coverage.xml  
+        coverage xml
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
