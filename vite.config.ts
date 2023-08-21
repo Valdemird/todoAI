@@ -9,7 +9,8 @@ export default defineConfig({
   plugins: [svgr(), react()],
   test:{
     coverage: {
-      provider: 'istanbul' // or 'v8'
+      provider: 'istanbul', // or 'v8'
+      reporter: ['lcov', 'json', 'text-summary'],
     },
     environment:"jsdom",
     globals:true

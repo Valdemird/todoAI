@@ -30,3 +30,4 @@ coverage
 .coverage
 coverage.*
 migrations/
+lcov.*
