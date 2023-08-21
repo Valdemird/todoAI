@@ -5,11 +5,11 @@ import List from "./stories/List/List";
 import { RadioButton } from "./stories/radioButton";
 import { filterOptions, useFilter } from "./hooks";
 import { InputTask } from "./stories/Input";
-import { BaseLayout, CenteredHeading } from "./components/Layout";
+import { BaseLayout, Button, CenteredHeading } from "./components/Layout";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");
-
+  const [showInput, setShowInput] = useState(false);
   const params = useParams();
   const { data, error, isLoading } = useGetTaskList(params.todoListId);
   const { setFilterParam, filteredItems } = useFilter(data);
@@ -59,11 +59,16 @@ const TaskListPage = () => {
           onChange={(item) => updateTask(item)}
         />
       )}
-      <InputTask
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onCreate={addTaskHandler}
-      />
+      {showInput ? (
+        <InputTask
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onCreate={addTaskHandler}
+          onCancel={() => setShowInput(false)}
+        />
+      ) : (
+        <Button onClick={() => setShowInput(true)}>Add Task</Button>
+      )}
     </BaseLayout>
   );
 };
