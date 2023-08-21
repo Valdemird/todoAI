@@ -10,7 +10,7 @@ jobs:
   test_quality:
     runs-on: ubuntu-latest
     container:
-      image: python:3.9
+      image: python:3.11
     environment: Sonar
     steps:
     - uses: actions/checkout@v3
