@@ -5,12 +5,13 @@ import { useAI, useGetTodoList, useTodoListMutation } from "./services/todos";
 import { Button } from "./stories/Button";
 
 import "./App.css";
+import { BaseLayout } from "./components/Layout";
 
 const TodoListPage = () => {
   const [input, setInput] = useState("");
   const { data, error, isLoading } = useGetTodoList();
   const { addTodoList, deleteTodoList } = useTodoListMutation();
-  const {addListWithAI} = useAI();
+  const { addListWithAI } = useAI();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -21,13 +22,9 @@ const TodoListPage = () => {
   }
 
   return (
-    <div>
-      <header>
-        <h1>Task Todo List</h1>
-      </header>
-      <main>
+    <BaseLayout>
         <section>
-          <h2>Tasks</h2>
+          <h2>TodoList</h2>
           <ul>
             {data.map((item) => (
               <li key={item.id}>
@@ -51,18 +48,14 @@ const TodoListPage = () => {
             onClick={() => addTodoList({ title: input })}
             label="Add Task"
           />
-                    <Button
+          <Button
             primary
             disabled={!input}
             onClick={() => addListWithAI(input)}
             label="AI"
           />
         </section>
-      </main>
-      <footer>
-        <p>© {new Date().getFullYear()} My Task App</p>
-      </footer>
-    </div>
+        </BaseLayout>
   );
 };
 

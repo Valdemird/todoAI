@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useParams } from "react-router";
-
 import { useGetTaskList, useTaskMutation } from "./services/todos";
-import { Button } from "./stories/Button";
 import List from "./stories/List/List";
 import { RadioButton } from "./stories/radioButton";
 import { filterOptions, useFilter } from "./hooks";
+import { InputTask } from "./stories/Input";
+import { BaseLayout, CenteredHeading } from "./components/Layout";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");
@@ -17,6 +17,22 @@ const TaskListPage = () => {
     params.todoListId
   );
 
+  const addTaskHandler = () => {
+    params.todoListId &&
+      addTask({
+        value: input,
+        list_id: parseInt(params.todoListId, 10),
+        order:
+          (filteredItems?.reduce((maxObject, currentObject) => {
+            return currentObject.order > maxObject.order
+              ? currentObject
+              : maxObject;
+          }, filteredItems[0])?.order ?? 0) + 1,
+        completed: false,
+      });
+    setInput("");
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -26,60 +42,29 @@ const TaskListPage = () => {
   }
 
   return (
-    <div>
-      <header>
-        <h1>Task List</h1>
-      </header>
-      <main>
-        <RadioButton
-          onChange={(value) => {
-            setFilterParam(value);
-          }}
-          options={filterOptions}
-        ></RadioButton>
-        <section>
-          <h2>Tasks</h2>
-          {filteredItems && (
-            <List
-              items={filteredItems}
-              deleteCallback={(item) => deleteTask(item.id)}
-              onChange={(item) => updateTask(item)}
-            />
-          )}
-        </section>
-        <section>
-          <h2>Add New Task</h2>
-          <input
-            type="text"
-            id="newTaskInput"
-            placeholder="Enter a new task"
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <Button
-            primary
-            disabled={!input}
-            onClick={() =>
-              params.todoListId &&
-              addTask({
-                value: input,
-                list_id: parseInt(params.todoListId, 10),
-                order:
-                  (filteredItems?.reduce((maxObject, currentObject) => {
-                    return currentObject.order > maxObject.order
-                      ? currentObject
-                      : maxObject;
-                  }, filteredItems[0])?.order ?? 0) + 1,
-                completed: false,
-              })
-            }
-            label="Add Task"
-          />
-        </section>
-      </main>
-      <footer>
-        <p>© {new Date().getFullYear()} My Task App</p>
-      </footer>
-    </div>
+    <BaseLayout>
+      <h1>Task List</h1>
+
+      <RadioButton
+        onChange={(value) => {
+          setFilterParam(value);
+        }}
+        options={filterOptions}
+      ></RadioButton>
+      <CenteredHeading>Tasks</CenteredHeading>
+      {filteredItems && (
+        <List
+          items={filteredItems}
+          deleteCallback={(item) => deleteTask(item.id)}
+          onChange={(item) => updateTask(item)}
+        />
+      )}
+      <InputTask
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onCreate={addTaskHandler}
+      />
+    </BaseLayout>
   );
 };
 

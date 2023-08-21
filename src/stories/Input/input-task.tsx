@@ -57,12 +57,12 @@ const SecondaryButton = styled(Button)`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-export const InputTask: React.FC = ({
+export const InputTask: React.FC<InputTaskProps> = ({
   value,
   onChange,
   onCancel,
   onCreate,
-}: InputTaskProps) => (
+}) => (
   <InputTaskContainer>
     <InputContainer>
       <label htmlFor="task-name">Tarea:</label>
