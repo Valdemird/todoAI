@@ -7,7 +7,7 @@ on:
       types: [opened, synchronize, reopened]
 name: Main Workflow
 jobs:
-  test&quality:
+  test_quality:
     runs-on: ubuntu-latest
     container:
       image: python:3.9
