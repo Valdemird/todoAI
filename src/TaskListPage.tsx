@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useParams } from "react-router";
-import { useGetTaskList, useTaskMutation } from "./services/todos";
+import {
+  useGetTaskList,
+  useGetTodoList,
+  useTaskMutation,
+} from "./services/todos";
 import List from "./stories/List/List";
 import { RadioButton } from "./stories/radioButton";
 import { filterOptions, useFilter } from "./hooks";
@@ -12,6 +16,7 @@ const TaskListPage = () => {
   const [showInput, setShowInput] = useState(false);
   const params = useParams();
   const { data, error, isLoading } = useGetTaskList(params.todoListId);
+  const { data: todoList } = useGetTodoList();
   const { setFilterParam, filteredItems } = useFilter(data);
   const { addTask, deleteTask, updateTask } = useTaskMutation(
     params.todoListId
@@ -33,17 +38,13 @@ const TaskListPage = () => {
     setInput("");
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
   return (
-    <BaseLayout>
-      <h1>Task List</h1>
+    <BaseLayout isLoading={isLoading} error={error ?? undefined}>
+      {console.log("todoList", todoList, params.todoListId)}
+      <h1>
+        {todoList?.find((element) => params.todoListId == element.id.toString())
+          ?.title ?? ""}
+      </h1>
 
       <RadioButton
         onChange={(value) => {
@@ -52,7 +53,7 @@ const TaskListPage = () => {
         options={filterOptions}
       ></RadioButton>
       <CenteredHeading>Tasks</CenteredHeading>
-      {filteredItems && (
+      {filteredItems && filterOptions.length && (
         <List
           items={filteredItems}
           deleteCallback={(item) => deleteTask(item.id)}

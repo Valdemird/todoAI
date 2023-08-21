@@ -1,12 +1,23 @@
 import { styled } from "styled-components";
 
+export const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  width: 100%;
+  height: 70vh;
+  padding: 10px;
+`;
+
 export const PageContainer = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  font-family: ${({theme}) => theme.typography.type.primary};
+  font-family: ${({ theme }) => theme.typography.type.primary};
 `;
 
 export const CenteredHeading = styled.h2`
