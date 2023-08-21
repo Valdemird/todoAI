@@ -22,6 +22,7 @@ export const ListItem: React.FC<ListItemProps> = ({
   showDelete,
 }) => {
   const [showEdit, setShowEdit] = useState(false);
+  const [newValue, setNewValue] = useState(item.value);
   return (
     <li className={classNames("custom-list-item", { checked: item.completed })}>
       <div className="check-label-container">
@@ -41,13 +42,24 @@ export const ListItem: React.FC<ListItemProps> = ({
             onSubmit={(e) => {
               e.preventDefault();
               const newTaskName = (e.target as HTMLFormElement).taskInput.value;
-              if (newTaskName !== item.value) {
+              if (newTaskName !== item.value && newTaskName) {
                 setShowEdit(!showEdit);
                 onChange({ ...item, value: newTaskName });
               }
             }}
           >
-            <input name="taskInput" type="text" placeholder={item.value} />
+            <input
+              autoFocus
+              name="taskInput"
+              type="text"
+              placeholder={item.value}
+              value={newValue}
+              onChange={(e) => setNewValue(e.target.value)}
+              onBlur={() => {
+                setNewValue(item.value);
+                setShowEdit(!showEdit);
+              }}
+            />
           </form>
         )}
       </div>
