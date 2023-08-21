@@ -7,7 +7,7 @@ on:
       types: [opened, synchronize, reopened]
 name: Main Workflow
 jobs:
-  sonarcloud:
+  test_quality:
     runs-on: ubuntu-latest
     container:
       image: python:3.9
@@ -26,14 +26,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 'latest'
+        node-version: '20.5.0'
     - name: React test
       run: |
-        cd src
         npm install
         npm install jsdom
+        npm i -D @swc/cli @swc/core
         npm test --coverage --watchAll=false
-        cd ..     
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       with:
