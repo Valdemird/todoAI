@@ -29,11 +29,9 @@ jobs:
         node-version: '20.5.0'
     - name: React test
       run: |
-        cd src
         npm install
         npm install jsdom
         npm test --coverage --watchAll=false
-        cd ..     
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       with:
