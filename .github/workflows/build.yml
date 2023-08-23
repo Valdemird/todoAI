@@ -1,11 +1,11 @@
 on:
   push:
     branches:
-      - main
       - feature/*
+      - main
   pull_request:
       types: [opened, synchronize, reopened]
-name: Main Workflow
+name: Test and Quality
 jobs:
   test_quality:
     runs-on: ubuntu-latest
