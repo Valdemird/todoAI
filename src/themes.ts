@@ -1,14 +1,16 @@
-
 export const lightTheme = {
   colors: {
-    primary: '#00aeff',
-    neutral1: '#484848',
-    neutral2: '#848484',
-    neutral3: '#c8c8c8',
-    danger1: '#ff0000',
-    danger2: '#f6917b',
+    primary: "#00aeff",
+    neutral1: "#484848",
+    neutral2: "#848484",
+    neutral3: "#c8c8c8",
+    danger1: "#ff0000",
+    danger2: "#f6917b",
   },
   spacing: {
+    margin: {
+      small: 8,
+    },
     padding: {
       tiny: 4,
       small: 8,
@@ -17,6 +19,8 @@ export const lightTheme = {
     },
     borderRadius: {
       small: 6,
+      medium: 12,
+      large: 18,
       default: 10,
     },
   },
@@ -26,10 +30,10 @@ export const lightTheme = {
       code: '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace',
     },
     weight: {
-      regular: '400',
-      bold: '700',
-      extrabold: '800',
-      black: '900',
+      regular: "400",
+      bold: "700",
+      extrabold: "800",
+      black: "900",
     },
     size: {
       s1: 12,

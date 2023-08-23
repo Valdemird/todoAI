@@ -1,6 +1,6 @@
 import React from "react";
-import "./List.css";
 import { Item, ListItem } from "./ListItem/ListItem";
+import { styled } from "styled-components";
 
 interface ListProps {
   items: Item[];
@@ -9,6 +9,12 @@ interface ListProps {
   onChange: (item: Item) => void;
   deleteCallback: (item: Item) => void;
 }
+
+const Ul = styled.ul`
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+`;
 
 const List: React.FC<ListProps> = ({
   items,
@@ -27,7 +33,7 @@ const List: React.FC<ListProps> = ({
       showDelete={showDelete}
     />
   ));
-  return <ul className="custom-list">{renderItems}</ul>;
+  return <Ul>{renderItems}</Ul>;
 };
 
 export default List;

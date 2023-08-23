@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { IconButton } from "../../IconButton";
-import classNames from "classnames";
+import styled from "styled-components";
 import { Task } from "../../../services/todos/types";
-import "./ListItem.css";
 
 export interface Item extends Task {}
 
@@ -14,6 +13,47 @@ interface ListItemProps {
   showDelete: boolean;
 }
 
+const Li = styled.li<{ completed: string }>`
+  margin-bottom: ${({ theme }) => theme.spacing.small}px;
+  border-radius: ${({ theme }) => theme.spacing.borderRadius.large}px;
+  border: 1px solid ${({ theme }) => theme.colors.neutral3};
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px ${({ theme }) => theme.spacing.padding.tiny}px;
+  ${({ completed }) =>
+    completed === "true" &&
+    `
+    text-decoration: line-through;
+  `}
+`;
+
+const CheckLabelContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Checkbox = styled.input`
+  position: relative;
+  visibility: none;
+  text-decoration: none;
+`;
+
+const EditableSpan = styled.span`
+  padding-left: ${({ theme }) => theme.spacing.padding.tiny}px;
+  cursor: pointer;
+`;
+
+const EditForm = styled.form`
+  display: flex;
+  align-items: center;
+  input[type="text"] {
+    flex: 1;
+  }
+`;
+
 export const ListItem: React.FC<ListItemProps> = ({
   item,
   deleteCallback,
@@ -23,22 +63,24 @@ export const ListItem: React.FC<ListItemProps> = ({
 }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [newValue, setNewValue] = useState(item.value);
+
   return (
-    <li className={classNames("custom-list-item", { checked: item.completed })}>
-      <div className="check-label-container">
+    <Li completed={item.completed.toString()}>
+      <CheckLabelContainer>
         {showCheck && (
-          <input
-            className="rounded-checkbox"
+          <Checkbox
             type="checkbox"
             checked={item.completed}
             onChange={() => onChange({ ...item, completed: !item.completed })}
           />
         )}
         {!showEdit && (
-          <span onClick={() => setShowEdit(!showEdit)}>{item.value}</span>
+          <EditableSpan onClick={() => setShowEdit(!showEdit)}>
+            {item.value}
+          </EditableSpan>
         )}
         {showEdit && (
-          <form
+          <EditForm
             onSubmit={(e) => {
               e.preventDefault();
               const newTaskName = (e.target as HTMLFormElement).taskInput.value;
@@ -60,9 +102,9 @@ export const ListItem: React.FC<ListItemProps> = ({
                 setShowEdit(!showEdit);
               }}
             />
-          </form>
+          </EditForm>
         )}
-      </div>
+      </CheckLabelContainer>
       {showDelete && (
         <IconButton
           iconRef="FaRegTrashAlt"
@@ -72,6 +114,6 @@ export const ListItem: React.FC<ListItemProps> = ({
           onClick={() => deleteCallback(item)}
         />
       )}
-    </li>
+    </Li>
   );
 };
