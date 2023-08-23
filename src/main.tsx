@@ -3,21 +3,25 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { Router } from "./Router"
+import { Router } from "./Router";
+import { lightTheme } from "./themes";
+import { ThemeProvider } from "styled-components";
 
 const queryClient = new QueryClient({
-  defaultOptions:{
-    queries:{
-      staleTime:6000
-    }
-  }
+  defaultOptions: {
+    queries: {
+      staleTime: 6000,
+    },
+  },
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>  
-    <QueryClientProvider client={queryClient}>
-      <Router/>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+  <React.StrictMode>
+    <ThemeProvider theme={lightTheme}>
+      <QueryClientProvider client={queryClient}>
+        <Router />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
