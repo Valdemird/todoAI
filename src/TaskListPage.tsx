@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router";
-import {
-  useGetTaskList,
-  useGetTodoList,
-  useTaskMutation,
-} from "./services/todos";
+
+import { filterOptions, useFilter } from "./hooks";
+import { useGetTaskList, useGetTodoList, useTaskMutation } from "./services/todos";
+import { InputTask } from "./stories/Input";
+import { BaseLayout, Button, CenteredHeading } from "./stories/Layout";
 import List from "./stories/List/List";
 import { RadioButton } from "./stories/radioButton";
-import { filterOptions, useFilter } from "./hooks";
-import { InputTask } from "./stories/Input";
-import { BaseLayout, Button, CenteredHeading } from "./components/Layout";
 
 const TaskListPage = () => {
   const [input, setInput] = useState("");

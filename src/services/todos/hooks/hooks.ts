@@ -1,15 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import {
-  addListWithAI,
-  addTask,
-  addTodoList,
-  deleteTask,
-  deleteTodoList,
-  getTaskList,
-  getTodoList,
-  putTask,
-} from "../api";
+import { addListWithAI, addTask, addTodoList, deleteTask, deleteTodoList, getTaskList, getTodoList, putTask } from "../api";
 import { Task, TaskList, TodoList, TodoLists } from "../types";
 import { useMutationCreator, useMutationWithInvalidation } from "./helpers";
 
@@ -60,9 +51,11 @@ export const useTaskMutation = (listId?: number) => {
 };
 
 export const useTodoListMutation = () => {
-  const addMutation = useMutationCreator<Omit<TodoList, "id">>(addTodoList, [
-    TODO_LIST_ID
-  ],(old, newTask) => [...old, newTask]);
+  const addMutation = useMutationCreator<Omit<TodoList, "id">>(
+    addTodoList,
+    [TODO_LIST_ID],
+    (old, newTask) => [...old, newTask]
+  );
   const deleteTodoListMutation = useMutationWithInvalidation(deleteTodoList, [
     TODO_LIST_ID,
   ]);
