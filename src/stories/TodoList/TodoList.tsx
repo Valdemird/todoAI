@@ -1,15 +1,15 @@
 import React from "react";
+import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
 import { TodoList } from "../../services/todos/types";
-import { FaTrashAlt } from "react-icons/fa";
 
 const IconSpan = styled.span`
   display: flex;
   margin-right: 6px;
   font-size: ${({ theme }) => theme.typography.size.s3}px;
 `;
-
 
 const ListContainer = styled.ul`
   list-style: none;
@@ -36,7 +36,7 @@ const ListLink = styled(Link)`
 
 const ListText = styled.span`
   color: ${({ theme }) => theme.colors.neutral1};
-  font-size: ${({ theme }) => theme.typography.size.s2}px;
+  font-size: ${({ theme }) => theme.typography.size.s3}px;
 `;
 
 const DeleteButton = styled.button`
@@ -44,18 +44,29 @@ const DeleteButton = styled.button`
   min-width: 40px;
   color: ${({ theme }) => theme.colors.neutral1};
   border: none;
-  padding: ${({ theme }) => `${theme.spacing.padding.tiny}px ${theme.spacing.padding.type}px`};
+  padding: ${({ theme }) =>
+    `${theme.spacing.padding.tiny}px ${theme.spacing.padding.type}px`};
   border-radius: ${({ theme }) => theme.spacing.borderRadius.small}px;
   cursor: pointer;
   font-size: ${({ theme }) => theme.typography.size.s2}px;
 `;
 
 interface TodoListProps {
+  /** An array of todo list data. */
   data: TodoList[];
+  /** A callback function to delete a todo list item by ID. */
   deleteTodoList(id: number): void;
 }
 
-export const TodoListUI: React.FC<TodoListProps> = ({ data, deleteTodoList }) => {
+/**
+ * React component for rendering a list of todo items.
+ *
+ * @component
+ */
+export const TodoListUI: React.FC<TodoListProps> = ({
+  data,
+  deleteTodoList,
+}) => {
   return (
     <ListContainer>
       {data?.map((item) => (
@@ -63,12 +74,13 @@ export const TodoListUI: React.FC<TodoListProps> = ({ data, deleteTodoList }) =>
           <ListLink to={`/list/${item.id}`}>
             <ListText>{item.title}</ListText>
           </ListLink>
-          <DeleteButton onClick={() => deleteTodoList(item.id)}>      <IconSpan>
-          <FaTrashAlt />
-        </IconSpan></DeleteButton>
+          <DeleteButton onClick={() => deleteTodoList(item.id)}>
+            <IconSpan>
+              <FaTrashAlt />
+            </IconSpan>
+          </DeleteButton>
         </ListItem>
       ))}
     </ListContainer>
   );
 };
-

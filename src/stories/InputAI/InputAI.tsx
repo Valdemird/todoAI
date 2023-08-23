@@ -9,14 +9,27 @@ import {
 } from "./components";
 import { FaHandSparkles } from "react-icons/fa";
 
+/**
+ * Properties for the `InputAI` component.
+ */
 interface InputAIProps {
+  /** The current value of the input. */
   value: string;
+  /** Callback function for handling value changes. */
   onChange(newValue: string): void;
+  /** Callback function for submitting with the "Add" button. */
   onSubmitAdd?(newValue: string): void;
+  /** Callback function for submitting with the "Submit with AI" button. */
   onSubmitAI?(newValue: string): void;
+  /** Placeholder text for the input field. */
   placeHolder?: string;
 }
 
+/**
+ * React component for an input field with "Add" and "Submit with AI" buttons.
+ *
+ * @component
+ */
 export const InputAI: React.FC<InputAIProps> = ({
   value,
   onChange,
@@ -78,7 +91,6 @@ export const InputAI: React.FC<InputAIProps> = ({
         aria-label="Submit with AI"
         onClick={() => handleSubmit(onSubmitAI)}
       >
-        {" "}
         <IconSpan>
           <FaHandSparkles />
         </IconSpan>

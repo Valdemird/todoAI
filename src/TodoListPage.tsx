@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useAI, useGetTodoList, useTodoListMutation } from "./services/todos";
-import { BaseLayout } from "./components/Layout";
-import { InputAI } from "./components/InputAI";
-import { TodoListUI } from "./components/TodoList";
 import { styled } from "styled-components";
 
+import { useAI, useGetTodoList, useTodoListMutation } from "./services/todos";
+import { InputAI } from "./stories/InputAI";
+import { BaseLayout } from "./stories/Layout";
+import { TodoListUI } from "./stories/TodoList";
 
 const Section = styled.section`
   width: 100%;
@@ -12,7 +12,7 @@ const Section = styled.section`
 
 const TodoListPage = () => {
   const [listInput, setListInput] = useState("");
-  
+
   const { data, error, isLoading } = useGetTodoList();
   const { addTodoList, deleteTodoList } = useTodoListMutation();
   const { addListWithAI } = useAI();
@@ -35,9 +35,7 @@ const TodoListPage = () => {
         />
       </Section>
       <Section>
-        {data && (
-          <TodoListUI deleteTodoList={deleteTodoList} data={data} />
-        )}
+        {data && <TodoListUI deleteTodoList={deleteTodoList} data={data} />}
       </Section>
     </BaseLayout>
   );
