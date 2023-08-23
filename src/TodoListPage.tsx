@@ -12,7 +12,6 @@ const Section = styled.section`
 
 const TodoListPage = () => {
   const [listInput, setListInput] = useState("");
-
   const { data, error, isLoading } = useGetTodoList();
   const { addTodoList, deleteTodoList } = useTodoListMutation();
   const { addListWithAI } = useAI();
