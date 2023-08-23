@@ -1,84 +1,115 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { addListWithAI, addTask, addTodoList, deleteTask, deleteTodoList, getTaskList, getTodoList, putTask } from "../api";
-import { Task, TaskList, TodoList, TodoLists } from "../types";
-import { useMutationCreator, useMutationWithInvalidation } from "./helpers";
-
-const TASK_LIST_ID = "taskList";
-const TODO_LIST_ID = "todoList";
-
 export const useGetTaskList = (listId?: number) => {
-  return useQuery<TaskList, Error>([TASK_LIST_ID, listId], () =>
-    getTaskList(listId)
-  );
+  return {
+    error: undefined,
+    isLoading: false,
+    data: [
+      {
+        "id": 127,
+        "value": "elegir una guitarra",
+        "order": 2,
+        "completed": false,
+        "list_id": 82
+      },
+      {
+        "id": 129,
+        "value": "aprender canciones",
+        "order": 4,
+        "completed": false,
+        "list_id": 82
+      },
+      {
+        "id": 133,
+        "value": "desarrollar la coordinación mano-ojo",
+        "order": 8,
+        "completed": false,
+        "list_id": 82
+      },
+      {
+        "id": 135,
+        "value": "leer tutoriales online.",
+        "order": 10,
+        "completed": false,
+        "list_id": 82
+      },
+      {
+        "id": 126,
+        "value": "Estudiar acordes básicos",
+        "order": 1,
+        "completed": true,
+        "list_id": 82
+      },
+      {
+        "id": 128,
+        "value": "practicar escalas",
+        "order": 3,
+        "completed": true,
+        "list_id": 82
+      },
+      {
+        "id": 130,
+        "value": "buscar recursos de aprendizaje",
+        "order": 5,
+        "completed": true,
+        "list_id": 82
+      },
+      {
+        "id": 132,
+        "value": "descubrir diferentes estilos musicales",
+        "order": 7,
+        "completed": true,
+        "list_id": 82
+      },
+      {
+        "id": 134,
+        "value": "encontrar un profesor",
+        "order": 9,
+        "completed": true,
+        "list_id": 82
+      }
+    ],
+  };
 };
 
 export const useGetTodoList = () => {
-  return useQuery<TodoLists, Error>([TODO_LIST_ID], getTodoList);
+  return {
+    error: undefined,
+    isLoading: false,
+    data: [
+      {
+        id: 82,
+        title: "aprender a tomar guitarra",
+      },
+      {
+        id: 83,
+        title: "aprender a hablar en publico",
+      },
+      {
+        id: 85,
+        title: "aprender a estucar una pared",
+      },
+      {
+        id: 88,
+        title: "aprender a jugar league of legends",
+      },
+    ],
+  };
 };
 
 export const useTaskMutation = (listId?: number) => {
-  const cacheIds = listId ? [TASK_LIST_ID, listId.toString()] : [TASK_LIST_ID];
-  const addMutation = useMutationCreator<Task>(
-    addTask,
-    cacheIds,
-    (old, newTask) => [...old, newTask]
-  );
-  const updateMutation = useMutationCreator<Task>(
-    (task) => putTask(task.id, task),
-    cacheIds,
-    (old, newTask) =>
-      [...old].map((oldTask) => (oldTask.id === newTask.id ? newTask : oldTask))
-  );
-  const deleteTaskMutation = useMutationWithInvalidation(deleteTask, cacheIds);
-  const handleAddTask = async (task: Omit<Task, "id">) => {
-    if (task.value) {
-      await addMutation.mutate(task);
-    }
-  };
-  const deleteTaskHandler = async (id: number) => {
-    await deleteTaskMutation.mutate(id);
-  };
-  const updateTaskHandler = async (task: Task) => {
-    await updateMutation.mutate(task);
-  };
-
   return {
-    addTask: handleAddTask,
-    updateTask: updateTaskHandler,
-    deleteTask: deleteTaskHandler,
+    addTask: () => console.log("addTask"),
+    updateTask: () => console.log("updateTask"),
+    deleteTask: () => console.log("deleteTask"),
   };
 };
 
 export const useTodoListMutation = () => {
-  const addMutation = useMutationCreator<Omit<TodoList, "id">>(
-    addTodoList,
-    [TODO_LIST_ID],
-    (old, newTask) => [...old, newTask]
-  );
-  const deleteTodoListMutation = useMutationWithInvalidation(deleteTodoList, [
-    TODO_LIST_ID,
-  ]);
-
-  const addTodoListHandler = async (todoList: Omit<TodoList, "id">) => {
-    if (todoList) {
-      await addMutation.mutate(todoList);
-    }
+  return {
+    addTodoList: () => console.log("addTodoList"),
+    deleteTodoList: () => console.log("deleteTodoList"),
   };
-  const deleteTaskHandler = async (id: number) =>
-    await deleteTodoListMutation.mutate(id);
-
-  return { addTodoList: addTodoListHandler, deleteTodoList: deleteTaskHandler };
 };
 
 export const useAI = () => {
-  const addListWithAIMutation = useMutationWithInvalidation<string>(
-    (prompt) => addListWithAI(prompt),
-    [TODO_LIST_ID]
-  );
-  const addListWithAIHandler = async (prompt: string) => {
-    await addListWithAIMutation.mutate(prompt);
-  };
-
-  return { addListWithAI: addListWithAIHandler };
+  return { addListWithAI:()=> console.log("addListWithAI")};
 };

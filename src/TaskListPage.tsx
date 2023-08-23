@@ -37,7 +37,6 @@ const TaskListPage = () => {
 
   return (
     <BaseLayout isLoading={isLoading} error={error ?? undefined}>
-      {console.log("todoList", todoList, params.todoListId)}
       <h1>
         {todoList?.find((element) => params.todoListId == element.id.toString())
           ?.title ?? ""}
