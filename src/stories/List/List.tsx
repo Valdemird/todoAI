@@ -11,6 +11,9 @@ interface ListProps {
 }
 
 const Ul = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.margin.small}px;
   width: 100%;
   list-style-type: none;
   padding: 0;
