@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import List from "./List";
 import React from "react";
+import { lightTheme } from "../../themes";
+import { ThemeProvider } from "styled-components";
 
 const props = {
   items: [
@@ -32,9 +34,17 @@ const props = {
   deleteCallback: vi.fn(),
 };
 
+const StyledWrapper = (wrapperProps) => {
+  return (
+    <ThemeProvider theme={lightTheme}>
+      <List {...wrapperProps} />
+    </ThemeProvider>
+  );
+};
+
 describe("List", () => {
   test("renders the list with all its corresponding items", () => {
-    render(<List {...props} />);
+    render(<StyledWrapper {...props} />);
     const expectedListItems = props.items.map((listItem) => listItem.value);
     expectedListItems.forEach((itemText) => {
       const listItemElement = screen.getByText(itemText);
