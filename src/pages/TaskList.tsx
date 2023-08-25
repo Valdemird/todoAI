@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import { filterOptions, useFilter } from "../hooks";
-import {
-  useGetTaskList,
-  useGetTodoList,
-  useTaskMutation,
-} from "../services/todos";
+import { useGetTaskList, useGetTodoList, useTaskMutation } from "../services/todos";
 import { InputTask } from "../stories/Input";
 import { BaseLayout, Button, CenteredHeading } from "../stories/Layout";
 import List from "../stories/List/List";
@@ -55,7 +51,6 @@ export const TaskListPage = () => {
 
   return (
     <BaseLayout isLoading={isLoading} error={error ?? undefined}>
-      {console.log("todoList", todoList, params.todoListId)}
       <h1>{currentTodoList?.title ?? ""}</h1>
 
       <RadioButton
