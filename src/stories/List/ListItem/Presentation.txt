@@ -1,0 +1,46 @@
+
+
+Pasos generales:
+
+Planeación del componente
+- Casos de uso  
+    - Se usará para ver un el listado de tareas
+    - Se usará para ver un listado de listas de tareas 
+        - Ambos casos requieren:
+            - Poder eliminar elementos de la lista
+            - Poder ver el texto relacionado con cada elemento de la lista
+            - Poder editar el texto relacionado con cada elemento de la lista
+        - Diferencias:
+            - El listado de tareas requiere un check que muestra el estado de la tarea
+            - El listado de listas de tareas no requiere ese check    
+Requerimientos
+    - Debe recibir un listado de elementos
+    - Debe mostrar un texto editable onClick por cada uno de los elementos de la lista
+    - Debe tener un botón de eliminar que ejecute una callback
+    - Debe tener un checkbox que se renderice condicionalmente
+    - El checkbox y el texto editable comparten la misma callback
+
+Elaboración del componente ListItem:
+1. Definir propiedades del componente
+    interface Task {
+        id: number;
+        value: string;
+        order: number;
+        completed: boolean,
+        list_id: number;
+    }
+    interface ListItemProps {
+        item: Item;
+        deleteCallback: (item: Item) => void;
+        onChange: (item: Item) => void;
+        showCheck: boolean;
+        showDelete: boolean;
+    }
+2. Definir estructura del JSX (elementos a utilizar y su relación)
+3. Definir estados internos y externos
+4. Definir funcionalidades
+5. Refactorizar
+
+Nombres sugeridos:
+Styled components:
+Li, CheckLabelContainer, Checkbox. EditableSpan, EditForm

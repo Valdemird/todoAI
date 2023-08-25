@@ -1,0 +1,75 @@
+
+Estilos y componentes:
+
+ Li:
+
+box-sizing: border-box;
+padding: 0px /*theme.spacing.padding.tiny*/;
+border-radius: /*theme.spacing.borderRadius.large*/;
+border: 1px solid /*theme.colors.neutral3*/;
+height: 40px;
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+text-decoration: line-through; //sólo cuando la tarea esté completada
+`;
+
+CheckLabelContainer:
+
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+`;
+
+Checkbox :
+  position: relative;
+  visibility: none;
+  text-decoration: none;
+
+
+EditableSpan :
+  padding: 0 /*theme.spacing.padding.tiny*/;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+`;
+
+EditForm :
+  display: flex;
+  align-items: center;
+  input[type="text"] {
+    flex: 1;
+  }
+`;
+
+
+Styled components:
+
+- Creando un componente
+    - Crea una constante que contendrá las propiedades css en javasript template string (``)
+    - Define el elemento html que usarás como base para ese componente
+    const MyComponent = styled.div `
+        margin: 0 auto;
+        position:relative;
+        `
+- Aplicando el tema definido de styled components:
+    ${({ theme }) => theme.spacing.padding.tiny}
+- Consulta el tema en src/styled.d.ts
+- Añadiendo propiedades
+const MyComponent = styled.div< color : string>`
+        margin: 0 auto;
+        position:relative;
+        ${({color})=>color && `background: ${color}`}
+        `    
+
+
+
+
+
+
+
+/********************* Tener en cuenta *************************/
+
+- Qué hace input[type="text"] flex: 1, cómo sería la sintaxis en css
