@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 
-import { useAI, useGetTodoList, useTodoListMutation } from "./services/todos";
-import { InputAI } from "./stories/InputAI";
-import { BaseLayout } from "./stories/Layout";
-import { TodoListUI } from "./stories/TodoList";
+import { useAI, useGetTodoList, useTodoListMutation } from "../services/todos";
+import { InputAI } from "../stories/InputAI";
+import { BaseLayout } from "../stories/Layout";
+import { TodoListUI } from "../stories/TodoList";
 
 const Section = styled.section`
   width: 100%;
 `;
 
-const TodoListPage = () => {
+export const TodoListPage = () => {
   const [listInput, setListInput] = useState("");
   const { data, error, isLoading } = useGetTodoList();
   const { addTodoList, deleteTodoList } = useTodoListMutation();
@@ -39,5 +39,3 @@ const TodoListPage = () => {
     </BaseLayout>
   );
 };
-
-export default TodoListPage;
