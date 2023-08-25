@@ -1,6 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { addListWithAI, addTask, addTodoList, deleteTask, deleteTodoList, getTaskList, getTodoList, putTask } from "../api";
+import {
+  addListWithAI,
+  addTask,
+  addTodoList,
+  deleteTask,
+  deleteTodoList,
+  getTaskList,
+  getTodoList,
+  putTask,
+} from "../api";
 import { Task, TaskList, TodoList, TodoLists } from "../types";
 import { useMutationCreator, useMutationWithInvalidation } from "./helpers";
 
@@ -8,13 +17,17 @@ const TASK_LIST_ID = "taskList";
 const TODO_LIST_ID = "todoList";
 
 export const useGetTaskList = (listId?: string) => {
-  return useQuery<TaskList, Error>([TASK_LIST_ID, listId], () =>
-    getTaskList(listId)
-  );
+  return useQuery<TaskList, Error>({
+    queryKey: [TASK_LIST_ID, listId],
+    queryFn: () => getTaskList(listId),
+  });
 };
 
 export const useGetTodoList = () => {
-  return useQuery<TodoLists, Error>([TODO_LIST_ID], getTodoList);
+  return useQuery<TodoLists, Error>({
+    queryKey: [TODO_LIST_ID],
+    queryFn: getTodoList,
+  });
 };
 
 export const useTaskMutation = (listId?: string) => {
@@ -80,5 +93,8 @@ export const useAI = () => {
     await addListWithAIMutation.mutate(prompt);
   };
 
-  return { addListWithAI: addListWithAIHandler, status: addListWithAIMutation.status };
+  return {
+    addListWithAI: addListWithAIHandler,
+    status: addListWithAIMutation.status,
+  };
 };
