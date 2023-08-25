@@ -5,6 +5,8 @@ import { Task } from "../../../services/todos/types";
 
 export interface Item extends Task {}
 
+type keyName = "Escape" | "Enter";
+
 interface ListItemProps {
   item: Item;
   deleteCallback: (item: Item) => void;
@@ -14,7 +16,8 @@ interface ListItemProps {
 }
 
 const Li = styled.li<{ completed: string }>`
-  margin-bottom: ${({ theme }) => theme.spacing.small}px;
+  box-sizing: border-box;
+  padding: 0px ${({ theme }) => theme.spacing.padding.tiny}px;
   border-radius: ${({ theme }) => theme.spacing.borderRadius.large}px;
   border: 1px solid ${({ theme }) => theme.colors.neutral3};
   height: 40px;
@@ -22,7 +25,6 @@ const Li = styled.li<{ completed: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px ${({ theme }) => theme.spacing.padding.tiny}px;
   ${({ completed }) =>
     completed === "true" &&
     `
@@ -33,6 +35,7 @@ const Li = styled.li<{ completed: string }>`
 const CheckLabelContainer = styled.div`
   display: flex;
   align-items: center;
+  overflow: hidden;
 `;
 
 const Checkbox = styled.input`
@@ -42,8 +45,11 @@ const Checkbox = styled.input`
 `;
 
 const EditableSpan = styled.span`
-  padding-left: ${({ theme }) => theme.spacing.padding.tiny}px;
+  padding: 0 ${({ theme }) => theme.spacing.padding.tiny}px;
   cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
 `;
 
 const EditForm = styled.form`
@@ -64,6 +70,30 @@ export const ListItem: React.FC<ListItemProps> = ({
   const [showEdit, setShowEdit] = useState(false);
   const [newValue, setNewValue] = useState(item.value);
 
+  const toggleShowEditOnKeyDown = (
+    e: React.KeyboardEvent<HTMLElement>,
+    key: keyName
+  ) => {
+    if (e.key === key) {
+      e.preventDefault();
+      setShowEdit(!showEdit);
+    }
+  };
+
+  const handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newTaskName = (e.target as HTMLFormElement).taskInput.value;
+    if (newTaskName !== item.value && newTaskName) {
+      onChange({ ...item, value: newTaskName });
+    }
+    setShowEdit(!showEdit);
+  };
+
+  const handleEditInputOnBlur = () => {
+    setNewValue(item.value);
+    setShowEdit(!showEdit);
+  };
+
   return (
     <Li completed={item.completed.toString()}>
       <CheckLabelContainer>
@@ -75,21 +105,17 @@ export const ListItem: React.FC<ListItemProps> = ({
           />
         )}
         {!showEdit && (
-          <EditableSpan onClick={() => setShowEdit(!showEdit)}>
+          <EditableSpan
+            title={item.value}
+            tabIndex={0}
+            onClick={() => setShowEdit(!showEdit)}
+            onKeyDown={(e) => toggleShowEditOnKeyDown(e, "Enter")}
+          >
             {item.value}
           </EditableSpan>
         )}
         {showEdit && (
-          <EditForm
-            onSubmit={(e) => {
-              e.preventDefault();
-              const newTaskName = (e.target as HTMLFormElement).taskInput.value;
-              if (newTaskName !== item.value && newTaskName) {
-                setShowEdit(!showEdit);
-                onChange({ ...item, value: newTaskName });
-              }
-            }}
-          >
+          <EditForm onSubmit={handleEditFormSubmit}>
             <input
               autoFocus
               name="taskInput"
@@ -97,10 +123,8 @@ export const ListItem: React.FC<ListItemProps> = ({
               placeholder={item.value}
               value={newValue}
               onChange={(e) => setNewValue(e.target.value)}
-              onBlur={() => {
-                setNewValue(item.value);
-                setShowEdit(!showEdit);
-              }}
+              onBlur={handleEditInputOnBlur}
+              onKeyDown={(e) => toggleShowEditOnKeyDown(e, "Escape")}
             />
           </EditForm>
         )}

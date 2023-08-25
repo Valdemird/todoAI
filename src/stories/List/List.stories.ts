@@ -46,7 +46,7 @@ export const Primary: Story = {
     ],
     showCheck: true,
     showDelete: true,
-    onChange: (e) => console.log("onChange called! e = ", e),
+    onChange: () => alert("onChange called!"),
     deleteCallback: () => alert("deleteCallback called!"),
   },
 };
