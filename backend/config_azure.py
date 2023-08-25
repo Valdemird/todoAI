@@ -17,9 +17,10 @@ CORS(app)
 #Configuración para Sqlite
 #app.config['SQLALCHEMY_DATABASE_URI'] =\
 #        'sqlite:///' + os.path.join(basedir, 'database.db')
+#Local
+#DB_URL = "postgresql://postgres:root@db:5432/postgres"
 
-DB_URL = "postgresql://bootcampuser%40taskappdbresource:aN63bF3Ex5u@taskappdbresource.postgres.database.azure.com:5432/postgres"
-
+DB_URL = "postgresql://bootcampuser%40taskappdbresource@taskappdbresource.postgres.database.azure.com:5432/postgres"
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
 

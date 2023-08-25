@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - main
+name: Deploy
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: Sonar
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+      
+      - name: 'Login Azure'
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'      
+      - name: 'Deploy to Azure Container Registry' 
+        run: |
+          az acr login --name taskapp
+          docker compose build
+          docker compose push
