@@ -18,5 +18,6 @@ jobs:
       - name: 'Deploy to Azure Container Registry' 
         run: |
           az login
+          az acr login --name taskapp
           docker compose build
           docker compose push
