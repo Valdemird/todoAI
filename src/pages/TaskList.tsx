@@ -1,16 +1,21 @@
-import { useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 
-import { filterOptions, useFilter } from "./hooks";
-import { useGetTaskList, useGetTodoList, useTaskMutation } from "./services/todos";
-import { InputTask } from "./stories/Input";
-import { BaseLayout, Button, CenteredHeading } from "./stories/Layout";
-import List from "./stories/List/List";
-import { RadioButton } from "./stories/radioButton";
+import { filterOptions, useFilter } from "../hooks";
+import {
+  useGetTaskList,
+  useGetTodoList,
+  useTaskMutation,
+} from "../services/todos";
+import { InputTask } from "../stories/Input";
+import { BaseLayout, Button, CenteredHeading } from "../stories/Layout";
+import List from "../stories/List/List";
+import { RadioButton } from "../stories/radioButton";
 
-const TaskListPage = () => {
+export const TaskListPage = () => {
   const [input, setInput] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const navigate = useNavigate();
   const params = useParams();
   const { data, error, isLoading } = useGetTaskList(params.todoListId);
   const { data: todoList } = useGetTodoList();
@@ -19,6 +24,19 @@ const TaskListPage = () => {
     params.todoListId
   );
 
+  const currentTodoList = todoList?.find(
+    (element) => params.todoListId == element.id.toString()
+  );
+
+  useEffect(() => {
+    if (!currentTodoList) {
+      navigate("/list");
+    }
+  }, [currentTodoList, navigate]);
+
+  if (!currentTodoList) {
+    return null;
+  }
   const addTaskHandler = () => {
     params.todoListId &&
       addTask({
@@ -38,10 +56,7 @@ const TaskListPage = () => {
   return (
     <BaseLayout isLoading={isLoading} error={error ?? undefined}>
       {console.log("todoList", todoList, params.todoListId)}
-      <h1>
-        {todoList?.find((element) => params.todoListId == element.id.toString())
-          ?.title ?? ""}
-      </h1>
+      <h1>{currentTodoList?.title ?? ""}</h1>
 
       <RadioButton
         onChange={(value) => {
@@ -70,5 +85,3 @@ const TaskListPage = () => {
     </BaseLayout>
   );
 };
-
-export default TaskListPage;
