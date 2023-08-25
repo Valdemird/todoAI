@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import {
-  InputContainer,
-  Button,
-  ErrorMessage,
-  ErrorMessageContainer,
-  IconSpan,
-  StyledInput,
-} from "./components";
 import { FaHandSparkles } from "react-icons/fa";
+
+import { Button, ErrorMessage, ErrorMessageContainer, IconSpan, InputContainer, StyledInput } from "./components";
 
 /**
  * Properties for the `InputAI` component.
@@ -23,6 +17,8 @@ interface InputAIProps {
   onSubmitAI?(newValue: string): void;
   /** Placeholder text for the input field. */
   placeHolder?: string;
+  /** Indicates whether the input field is disabled or not. */
+  disabled?: boolean;
 }
 
 /**
@@ -32,8 +28,9 @@ interface InputAIProps {
  */
 export const InputAI: React.FC<InputAIProps> = ({
   value,
-  onChange,
+  disabled,
   placeHolder,
+  onChange,
   onSubmitAdd,
   onSubmitAI,
 }) => {
@@ -69,6 +66,7 @@ export const InputAI: React.FC<InputAIProps> = ({
         <StyledInput
           type="text"
           value={value}
+          disabled={disabled}
           onChange={(e) => {
             onChange(e.target.value);
             validateInput(e.target.value);
@@ -82,12 +80,14 @@ export const InputAI: React.FC<InputAIProps> = ({
       </ErrorMessageContainer>
 
       <Button
+        disabled={disabled}
         aria-label="Add a todo list"
         onClick={() => handleSubmit(onSubmitAdd)}
       >
         Add
       </Button>
       <Button
+        disabled={disabled}
         aria-label="Submit with AI"
         onClick={() => handleSubmit(onSubmitAI)}
       >

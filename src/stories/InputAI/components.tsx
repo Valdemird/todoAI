@@ -9,21 +9,21 @@ export const InputContainer = styled.div`
 
 export const StyledInput = styled.input`
   width: 100%;
-  margin-right: ${({ theme }) => theme.spacing.padding.small}px;;
+  margin-right: ${({ theme }) => theme.spacing.padding.small}px;
   padding: ${({ theme }) => theme.spacing.padding.tiny}px;
   border: 1px solid ${({ theme }) => theme.colors.neutral3};
-  border-radius: ${({ theme }) => theme.spacing.borderRadius.small}px;;
+  border-radius: ${({ theme }) => theme.spacing.borderRadius.small}px;
   font-size: ${({ theme }) => theme.typography.size.s3}px;
   outline: none;
   transition: border-color 0.3s;
-  
+
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
 export const ErrorMessage = styled.p`
-  color: ${({ theme }) => theme.colors.danger1};;
+  color: ${({ theme }) => theme.colors.danger1};
   font-size: ${({ theme }) => theme.typography.size.s2}px;
   margin-top: ${({ theme }) => theme.spacing.padding.tiny}px;
 `;
@@ -44,6 +44,11 @@ export const Button = styled.button`
   font-weight: ${({ theme }) => theme.typography.weight.bold};
   cursor: pointer;
   border: none;
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.neutral3};
+    cursor: auto;
+  }
 `;
 
 export const IconSpan = styled.span`
