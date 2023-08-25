@@ -80,5 +80,5 @@ export const useAI = () => {
     await addListWithAIMutation.mutate(prompt);
   };
 
-  return { addListWithAI: addListWithAIHandler };
+  return { addListWithAI: addListWithAIHandler, status: addListWithAIMutation.status };
 };

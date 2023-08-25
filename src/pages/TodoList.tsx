@@ -14,7 +14,7 @@ export const TodoListPage = () => {
   const [listInput, setListInput] = useState("");
   const { data, error, isLoading } = useGetTodoList();
   const { addTodoList, deleteTodoList } = useTodoListMutation();
-  const { addListWithAI } = useAI();
+  const { addListWithAI,status } = useAI();
 
   const handleAddTodoList = () => {
     setListInput("");
@@ -26,6 +26,7 @@ export const TodoListPage = () => {
       <h2>Todo List</h2>
       <Section>
         <InputAI
+          disabled={status === 'loading'}
           value={listInput}
           onChange={setListInput}
           onSubmitAdd={handleAddTodoList}
