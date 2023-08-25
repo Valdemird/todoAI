@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import { filterOptions, useFilter } from "../hooks";
+import { filterOptions, FilterValues, useFilter } from "../hooks";
 import { useGetTaskList, useGetTodoList, useTaskMutation } from "../services/todos";
 import { InputTask } from "../stories/Input";
 import { BaseLayout, Button, CenteredHeading } from "../stories/Layout";
@@ -14,7 +14,7 @@ export const TaskListPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { data, error, isLoading } = useGetTaskList(params.todoListId);
-  const { data: todoList } = useGetTodoList();
+  const { data: todoList, isLoading: todoIsLoading } = useGetTodoList();
   const { setFilterParam, filteredItems } = useFilter(data);
   const { addTask, deleteTask, updateTask } = useTaskMutation(
     params.todoListId
@@ -25,10 +25,10 @@ export const TaskListPage = () => {
   );
 
   useEffect(() => {
-    if (!currentTodoList) {
+    if (!currentTodoList && !todoIsLoading) {
       navigate("/list");
     }
-  }, [currentTodoList, navigate]);
+  }, [currentTodoList, navigate, todoIsLoading]);
 
   if (!currentTodoList) {
     return null;
@@ -55,7 +55,7 @@ export const TaskListPage = () => {
 
       <RadioButton
         onChange={(value) => {
-          setFilterParam(value);
+          setFilterParam(value as FilterValues);
         }}
         options={filterOptions}
       ></RadioButton>

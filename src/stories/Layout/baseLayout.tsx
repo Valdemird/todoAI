@@ -1,11 +1,13 @@
-import { InfoContainer, Main, PageContainer } from "./components";
 import { Header } from "../../stories/Header";
+import { InfoContainer, Main, PageContainer } from "./components";
 
 export interface BaseLayoutProps {
   /** Determines whether the layout is in a loading state. */
   isLoading?: boolean;
   /** An optional error object to display in the layout. */
   error?: Error;
+  /** The child components to render within the layout. */
+  children?: React.ReactNode;
 }
 
 /**
@@ -32,7 +34,7 @@ const renderChildren = (
   if (error) {
     return <InfoContainer>Error: {error.message}</InfoContainer>;
   }
-  return children;
+  return <>{children}</>;
 };
 
 /**
@@ -50,7 +52,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({
       <Header />
       <Main>{renderChildren(children, isLoading, error)}</Main>
       <footer>
-        <p>© {new Date().getFullYear()} My Task App</p>
+        <p>Gorilla Logic {new Date().getFullYear()}</p>
       </footer>
     </PageContainer>
   );

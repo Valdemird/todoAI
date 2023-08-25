@@ -5,7 +5,7 @@ const TASK = "/task/";
 const LIST = "/list/";
 const AI = "/langchain/";
 
-export const getTaskList = async (listId?: number): Promise<TaskList> => {
+export const getTaskList = async (listId?: string): Promise<TaskList> => {
   const response = await fetch(`${HOST}${TASK}?listId=${listId ?? ""}`);
   return response.json();
 };
@@ -35,7 +35,7 @@ export const deleteTask = async (id: number): Promise<void> => {
   });
 };
 
-export const putTask = async (id: number, newTask: Task): Promise<Task> => {
+export const putTask = async (id: string, newTask: Task): Promise<Task> => {
   const response = await fetch(`${HOST}${TASK}${id}`, {
     method: "PUT",
     headers: {

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-
-
-
+const showAlert = () => {
+  alert(`Error syncing with the server. Please try again later.`);
+}
 export const useMutationCreator = <T>(
   fetchFunction: (arg: T) => Promise<T>,
   getId: string[],
@@ -24,7 +24,8 @@ export const useMutationCreator = <T>(
 
       return { previousTodos };
     },
-    onError: (err, newTodo, context) => {
+    onError: (_, __, context) => {
+      showAlert();
       queryCache.setQueryData(getId, context?.previousTodos);
     },
     onSettled: () => {
@@ -42,6 +43,9 @@ export const useMutationWithInvalidation = <T>(
   const queryCache = useQueryClient();
   const mutation = useMutation({
     mutationFn: fetchFunction,
+    onError: () => {
+      showAlert();
+    },
     onSuccess: () => {
       queryCache.invalidateQueries({ queryKey: getIds });
     },
