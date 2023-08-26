@@ -22,6 +22,8 @@ services:
     restart: always
     ports:
       - "50100:50100"
+    environment:
+      - OPENAI_API_KEY=${SECRET_KEY_OPENAI}
     depends_on:
       - db
     healthcheck:
