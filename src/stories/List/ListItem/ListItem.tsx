@@ -15,11 +15,50 @@ interface ListItemProps {
 }
 
 //styled components
-const Li = "";
-const CheckLabelContainer = "";
-const Checkbox = "";
-const EditableSpan = "";
-const EditForm = "";
+const Li = styled.li<{ completed: string }>`
+  box-sizing: border-box;
+  padding: 0px ${({ theme }) => theme.spacing.padding.tiny}px;
+  border-radius: ${({ theme }) => theme.spacing.borderRadius.large}px;
+  border: 1px solid ${({ theme }) => theme.colors.neutral3};
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  ${({ completed }) =>
+    completed === "true" &&
+    `
+    text-decoration: line-through;
+  `}
+`;
+
+const CheckLabelContainer = styled.div`
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const Checkbox = styled.input`
+  position: relative;
+  visibility: none;
+  text-decoration: none;
+`;
+
+const EditableSpan = styled.span`
+  padding: 0 ${({ theme }) => theme.spacing.padding.tiny}px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+`;
+
+const EditForm = styled.form`
+  display: flex;
+  align-items: center;
+  input[type="text"] {
+    flex: 1;
+  }
+`;
 
 export const ListItem: React.FC<ListItemProps> = ({
   item,
@@ -32,8 +71,23 @@ export const ListItem: React.FC<ListItemProps> = ({
 
   //4. Definir funcionalidades
 
-  //5. Refactorizar
-
   //2. Definir estructura del JSX (elementos a utilizar y su relación)
-  return <div>Punto de partida</div>;
+  return (
+    <Li completed={item.completed.toString()}>
+      <CheckLabelContainer>
+        <Checkbox type="checkbox" />
+        <EditableSpan title={item.value}>{item.value}</EditableSpan>
+        <EditForm>
+          <input autoFocus name="taskInput" type="text" />
+        </EditForm>
+      </CheckLabelContainer>
+      <IconButton
+        iconRef="FaRegTrashAlt"
+        shape="circle"
+        style="filled"
+        color="danger"
+        onClick={() => true}
+      />
+    </Li>
+  );
 };

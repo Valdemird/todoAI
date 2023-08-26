@@ -39,8 +39,6 @@ Elaboración del componente ListItem:
 2. Definir estructura del JSX (elementos a utilizar y su relación)
 3. Definir estados internos y externos
 4. Definir funcionalidades
-5. Refactorizar
 
-Nombres sugeridos:
 Styled components:
 Li, CheckLabelContainer, Checkbox. EditableSpan, EditForm
