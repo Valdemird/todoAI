@@ -70,6 +70,26 @@ export const ListItem: React.FC<ListItemProps> = ({
   const [showEdit, setShowEdit] = useState(false);
   const [newValue, setNewValue] = useState(item.value);
 
+  /*const toggleShowEdit = () => {
+    setShowEdit(!showEdit);
+  };
+
+  const updateCompleted = () => {
+    onChange({ ...item, completed: !item.completed });
+  };
+
+  const keyboardEventHandler = (
+    e: React.KeyboardEvent<HTMLElement>,
+    key: keyName,
+    fn: () => void,
+    preventDefault: boolean = false
+  ) => {
+    if (e.key === key) {
+      preventDefault && e.preventDefault();
+      fn();
+    }
+  };*/
+
   const toggleShowEditOnKeyDown = (
     e: React.KeyboardEvent<HTMLElement>,
     key: keyName
@@ -77,6 +97,17 @@ export const ListItem: React.FC<ListItemProps> = ({
     if (e.key === key) {
       e.preventDefault();
       setShowEdit(!showEdit);
+      //toggleShowEdit()
+    }
+  };
+
+  const handleCheckboxOnBlur = (
+    e: React.KeyboardEvent<HTMLElement>,
+    key: keyName
+  ) => {
+    if (e.key === key) {
+      onChange({ ...item, completed: !item.completed });
+      /*updateCompleted()*/
     }
   };
 
@@ -87,11 +118,13 @@ export const ListItem: React.FC<ListItemProps> = ({
       onChange({ ...item, value: newTaskName });
     }
     setShowEdit(!showEdit);
+    //toggleShowEdit()
   };
 
   const handleEditInputOnBlur = () => {
     setNewValue(item.value);
     setShowEdit(!showEdit);
+    //toggleShowEdit()
   };
 
   return (
@@ -101,15 +134,26 @@ export const ListItem: React.FC<ListItemProps> = ({
           <Checkbox
             type="checkbox"
             checked={item.completed}
-            onChange={() => onChange({ ...item, completed: !item.completed })}
+            onChange={
+              () =>
+                onChange({
+                  ...item,
+                  completed: !item.completed,
+                }) /*updateCompleted*/
+            }
+            onKeyDown={(e) => handleCheckboxOnBlur(e, "Enter")}
+            //onKeyDown={(e) => keyboardEventHandler(e, "Enter", updateCompleted)}
           />
         )}
         {!showEdit && (
           <EditableSpan
             title={item.value}
             tabIndex={0}
-            onClick={() => setShowEdit(!showEdit)}
+            onClick={() => setShowEdit(!showEdit) /*toggleShowEdit*/}
             onKeyDown={(e) => toggleShowEditOnKeyDown(e, "Enter")}
+            //onKeyDown={(e) =>
+            //keyboardEventHandler(e, "Enter", toggleShowEdit, true)
+            //}
           >
             {item.value}
           </EditableSpan>
@@ -125,6 +169,9 @@ export const ListItem: React.FC<ListItemProps> = ({
               onChange={(e) => setNewValue(e.target.value)}
               onBlur={handleEditInputOnBlur}
               onKeyDown={(e) => toggleShowEditOnKeyDown(e, "Escape")}
+              //onKeyDown={(e) =>
+              //keyboardEventHandler(e, "Escape", toggleShowEdit)
+              //}
             />
           </EditForm>
         )}
