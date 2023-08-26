@@ -1,3 +1,8 @@
+
+
+const TASK_LIST_ID = "taskList";
+const TODO_LIST_ID = "todoList";
+
 export const useGetTaskList = (listId?: string) => {
   return {
     error: undefined,
