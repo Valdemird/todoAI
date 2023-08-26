@@ -1,28 +1,37 @@
-# React + TypeScript + Vite
+# Guía para Ejecutar el Proyecto Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esta guía te proporcionará los pasos necesarios para configurar y ejecutar un proyecto Vite en tu máquina. Vite es un entorno de desarrollo rápido para proyectos web modernos
 
-Currently, two official plugins are available:
+## Requisitos Previos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Antes de comenzar, asegúrate de tener instalado lo siguiente en tu sistema:
 
-## Expanding the ESLint configuration
+1. [Node.js](https://nodejs.org/) (versión recomendada: 16.x o superior)
+2. [npm](https://www.npmjs.com/) (se instala junto con Node.js)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Pasos a Seguir
 
-- Configure the top-level `parserOptions` property like this:
+Sigue estos pasos para configurar y ejecutar el proyecto Vite:
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+### 1. Clonar el Repositorio
+
+Clona el repositorio de tu proyecto Vite desde GitHub o cualquier otra plataforma de control de versiones.
+
+```bash
+git clone <URL_del_repositorio>
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# todoAI
+### 2. Instalar Dependencias
+Navega al directorio del proyecto clonado e instala las dependencias utilizando npm:
+
+```bash
+cd project;
+npm install;
+```
+
+### 3. Iniciar el Servidor de Desarrollo
+Ejecuta el siguiente comando para iniciar el servidor de desarrollo de Vite
+
+```bash
+npm run dev
+```
