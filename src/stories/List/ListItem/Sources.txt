@@ -62,14 +62,4 @@ const MyComponent = styled.div< color : string>`
         margin: 0 auto;
         position:relative;
         ${({color})=>color && `background: ${color}`}
-        `    
-
-
-
-
-
-
-
-/********************* Tener en cuenta *************************/
-
-- Qué hace input[type="text"] flex: 1, cómo sería la sintaxis en css
+        `   

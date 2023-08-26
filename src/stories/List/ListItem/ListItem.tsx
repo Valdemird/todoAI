@@ -5,6 +5,8 @@ import { Task } from "../../../services/todos/types";
 
 export interface Item extends Task {}
 
+type keyName = "Escape" | "Enter";
+
 //1. Definir propiedades del componmente
 interface ListItemProps {
   item: Item;
@@ -68,17 +70,41 @@ export const ListItem: React.FC<ListItemProps> = ({
   showDelete,
 }) => {
   //3. Definir estados internos y externos
+  //showEdit
+  //newValue
 
   //4. Definir funcionalidades
+  //- handleEditFormSubmit
+  //- toggleShowEditOnKeyDown
+  //- handleEditInputOnBlur = () => {};
 
   //2. Definir estructura del JSX (elementos a utilizar y su relación)
   return (
     <Li completed={item.completed.toString()}>
       <CheckLabelContainer>
-        <Checkbox type="checkbox" />
-        <EditableSpan title={item.value}>{item.value}</EditableSpan>
-        <EditForm>
-          <input autoFocus name="taskInput" type="text" />
+        <Checkbox
+          type="checkbox"
+          //checked={}
+          //onChange={}
+        />
+        <EditableSpan
+        //title={}
+        //tabIndex={}
+        //onClick={}
+        //onKeyDown={}
+        ></EditableSpan>
+        <EditForm
+        //onSubmit={}
+        >
+          <input
+            //autoFocus
+            //name="editItemValueInput"
+            type="text"
+            //value={}
+            //onChange={}
+            //onBlur={}
+            //onKeyDown={}
+          />
         </EditForm>
       </CheckLabelContainer>
       <IconButton
